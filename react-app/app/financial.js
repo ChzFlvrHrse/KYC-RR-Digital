@@ -18,7 +18,15 @@ const taxIdTypes = [
     "KRA PIN (Kenya)", // Kenya Revenue Authority Personal Identification Number
     "TRN (Jamaica)",   // Taxpayer Registration Number
     "ID No. (Various)" // National Identification Number
+];
+
+const incomeSources = [
+    "Employment Income",
+    "Investments",
+    "Inheritance",
+    "Business Income",
+    "Savings",
+    "Family"
   ];
 
-
-export default taxIdTypes;
+export { taxIdTypes, incomeSources };

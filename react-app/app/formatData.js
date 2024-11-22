@@ -16,6 +16,29 @@ function formatPhoneNumberFlexible(phoneNumber) {
     } else {
         return 'Invalid phone number';
     }
+};
+
+function formatDateToMonthDayYear(dateString) {
+    const months = [
+        "January", "February", "March", "April", "May", "June",
+        "July", "August", "September", "October", "November", "December"
+    ];
+
+    const [year, month, day] = dateString.split("-"); // Split the input date
+    const monthName = months[parseInt(month, 10) - 1]; // Get the month name
+    return `${monthName} ${parseInt(day, 10)}, ${year}`; // Combine as Month Day, Year
+};
+
+function taxIdFormatter(taxId) {
+    // Remove all non-digit characters
+    const cleaned = ('' + taxId).replace(/\D/g, '');
+
+    // Format SSN
+    if (cleaned.length === 9) {
+        return cleaned.replace(/(\d{3})(\d{2})(\d{4})/, '$1-$2-$3');
+    } else {
+        return 'Invalid tax ID';
+    }
 }
 
 function isValidEmail(email) {
@@ -24,6 +47,6 @@ function isValidEmail(email) {
 
     // Test the email against the regex
     return emailRegex.test(email);
-}
+};
 
-export { formatPhoneNumberFlexible, isValidEmail };
+export { formatPhoneNumberFlexible, formatDateToMonthDayYear, taxIdFormatter, isValidEmail };

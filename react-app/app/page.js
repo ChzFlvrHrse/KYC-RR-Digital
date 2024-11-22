@@ -1,10 +1,9 @@
 'use client';
 
 import { useState, useEffect } from "react";
-import states from "./location/states";
-import countries from "./location/countries";
-import taxIdTypes from "./taxIdTypes";
-import { isValidEmail, formatPhoneNumberFlexible } from "./formatData";
+import { states, countries } from "./location";
+import { taxIdTypes, incomeSources } from "./financial";
+import { isValidEmail, formatDateToMonthDayYear, taxIdFormatter, formatPhoneNumberFlexible } from "./formatData";
 import styles from "./page.module.css";
 
 export default function Home() {
@@ -25,7 +24,7 @@ export default function Home() {
   const [country, setCountry] = useState("");
   const [zip, setZip] = useState("");
 
-  const [taxId, setTaxId] = useState("");
+  const [taxId, setTaxId] = useState('');
   const [taxIdType, setTaxIdType] = useState("");
   const [countryOfCitizenship, setCountryOfCitizenship] = useState("");
   const [countryOfBirth, setCountryOfBirth] = useState("");
@@ -203,6 +202,12 @@ export default function Home() {
     sectionChecks();
   }, [carousel, firstName, middleName, lastName, dob, email, phone, address, unit, city, state, country, zip, taxId, taxIdType, countryOfCitizenship, countryOfBirth, countryOfResidence, fundingSource]);
 
+  const identityInfo = [['First Name', firstName], ['Middle Name', middleName], ['Last Name', lastName], ['Date of Birth', formatDateToMonthDayYear(dob)]];
+  const contactInfo = [['Email', email], ['Phone', formatPhoneNumberFlexible(phone)], ['Address', address], ['Unit', unit], ['City', city], ['State', state], ['Country', country], ['Zip', zip]];
+  const financialInfo = [['Tax ID', taxIdFormatter(taxId)], ['Tax ID Type', taxIdType], ['Country of Citizenship', countryOfCitizenship], ['Country of Birth', countryOfBirth], ['Country of Residence', countryOfResidence], ['Funding Source', fundingSource]];
+
+  const accountInfo = [identityInfo, contactInfo, financialInfo];
+  const sectionTitles = { 0: "Identity", 1: "Contact", 2: "Financial" };
 
   return (
     <div className={styles.page}>
@@ -219,7 +224,7 @@ export default function Home() {
             style={{ transform: `translateX(-${carousel * 100}%)` }}
             className={styles.formContainer}
           >
-            {/*<---------------------------------------section 1--------------------------------------------> */}
+            {/*<---------------------------------------IDENTITY--------------------------------------------> */}
             <div className={styles.formInnerWrapper}>
               <h2>1. Identity</h2>
               <div className={styles.formRow}>
@@ -272,7 +277,7 @@ export default function Home() {
                 {errors?.map((error, id) => <p className={styles.error} key={id}>{error}</p>)}
               </div>
             </div>
-            {/*<-------------------------------------section 2----------------------------------------------> */}
+            {/*<---------------------------------------CONTACT--------------------------------------------> */}
             <div className={styles.formInnerWrapper}>
               <h2>2. Contact</h2>
               <div className={styles.formRow}>
@@ -377,7 +382,7 @@ export default function Home() {
                 {errors?.map((error, id) => <p className={styles.error} key={id}>{error}</p>)}
               </div>
             </div>
-            {/*<------------------------------------section 3-----------------------------------------------> */}
+            {/*<---------------------------------------FINANCIAL--------------------------------------------> */}
             <div className={styles.formInnerWrapper}>
               <h2>3. Fincancial</h2>
               <div className={styles.formRow}>
@@ -456,24 +461,51 @@ export default function Home() {
                   <div className={styles.underline}></div>
                 </div>
                 <div className={styles.inputData}>
-                  <input
+                  <select
                     onChange={e => setFundingSource(e.target.value)}
                     value={fundingSource}
-                    type="text"
                     required
-                  />
+                  >
+                    <option value="">Funding Source</option>
+                    {incomeSources.map((source, index) => (
+                      <option key={index} value={source}>
+                        {source}
+                      </option>
+                    ))}
+                  </select>
                   <div className={styles.underline}></div>
-                  <label>Funding Source</label>
                 </div>
               </div>
               <div style={{ visibility: carousel === 2 ? 'visible' : 'hidden' }}>
                 {errors?.map((error, id) => <p className={styles.error} key={id}>{error}</p>)}
               </div>
             </div>
-            {/*<---------------------------------------section 4--------------------------------------------> */}
+            {/*<---------------------------------------SUMMARY--------------------------------------------> */}
             <div className={styles.formInnerWrapper}>
-              <h2>4. Review</h2>
-                
+              <h2>4. Summary</h2>
+              <div className={styles.summaryContainer}>
+                {accountInfo.map((section, index) => (
+                  <div key={index} className={styles.summarySection}>
+                    <h3 className={styles.sectionTitle}>{sectionTitles[index]}</h3>
+                    {section.map((field, id) => (
+                      <div
+                        style={{ display: field[1] === '' ? 'none' : null }}
+                        key={id}
+                        className={styles.summaryInnerSection}
+                      >
+                        <b>
+                          <p>
+                            {field[0]}:
+                          </p>
+                        </b>
+                        <p>
+                          {field[1]}
+                        </p>
+                      </div>
+                    ))}
+                  </div>
+                ))}
+              </div>
             </div>
           </form>
         </div>
@@ -486,7 +518,7 @@ export default function Home() {
             Back
           </button>
           <button
-            onClick={() => setCarousel(carousel + 1)}
+            onClick={() => carousel < 3 ? setCarousel(carousel + 1) : null}
             disabled={errors.length > 0}
             className={styles.nextBtn}
           >
