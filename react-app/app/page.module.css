@@ -74,7 +74,15 @@
   height: 70px;
 }
 
+/* .inputData select  {
+  display: flex;
+  height: 100%;
+  width: 100%;
+} */
+
+
 .inputData input,
+.inputData select,
 .textarea textarea {
   display: block;
   width: 100%;
@@ -112,7 +120,7 @@
   background: #fff;
 }
 
-.inputData .underline {
+.underline {
   position: absolute;
   bottom: 0;
   height: 2px;
@@ -132,8 +140,8 @@
 
 .inputData input:focus ~ .underline:before,
 .inputData input:valid ~ .underline:before,
-.textarea textarea:focus ~ .underline:before,
-.textarea textarea:valid ~ .underline:before {
+.inputData select:focus ~ .underline:before,
+.inputData select:valid ~ .underline:before {
   transform: scale(1);
 }
 
@@ -225,6 +233,12 @@
   padding: .10rem 0;
   background: #3498db;
   transition: width .5s ease;
+}
+
+.error {
+  color: red;
+  font-size: 14px;
+  margin-top: 5px;
 }
 
 @media (max-width: 700px) {

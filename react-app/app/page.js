@@ -1,6 +1,10 @@
 'use client';
 
 import { useState, useEffect } from "react";
+import states from "./location/states";
+import countries from "./location/countries";
+import taxIdTypes from "./taxIdTypes";
+import { isValidEmail, formatPhoneNumberFlexible } from "./formatData";
 import styles from "./page.module.css";
 
 export default function Home() {
@@ -34,58 +38,31 @@ export default function Home() {
     datePicker.showPicker();
   };
 
-  function formatDateToMonthDayYear(dateString) {
-    // Ensure the dateString is in the format yyyy-MM-dd
-    const [year, month, day] = dateString.split("-");
-
-    // Create a Date object
-    const date = new Date(year, month - 1, day); // Month is zero-based
-
-    // Use toLocaleDateString to format the date
-    const formattedDate = date.toLocaleDateString("en-US", {
-      year: "numeric",
-      month: "long",
-      day: "numeric",
-    });
-
-    return formattedDate;
-  };
-
-  function formatPhoneNumberFlexible(phoneNumber) {
-    // Remove all non-digit characters
-    const cleaned = ('' + phoneNumber).replace(/\D/g, '');
-
-    // Format numbers of various lengths
-    if (cleaned.length === 10) {
-      return cleaned.replace(/(\d{3})(\d{3})(\d{4})/, '($1) $2-$3');
-    } else if (cleaned.length === 11 && cleaned.startsWith('1')) {
-      // For numbers with a leading country code "1"
-      return cleaned.replace(/1(\d{3})(\d{3})(\d{4})/, '+1 ($1) $2-$3');
-    } else if (cleaned.length > 10) {
-      // Handle longer numbers (e.g., extensions)
-      const base = cleaned.slice(0, 10).replace(/(\d{3})(\d{3})(\d{4})/, '($1) $2-$3');
-      const extension = cleaned.slice(10);
-      return `${base} x${extension}`;
-    } else {
-      return 'Invalid phone number';
-    }
-  }
-
-  function isValidEmail(email) {
-    // Define the regular expression for validating an email
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-
-    // Test the email against the regex
-    return emailRegex.test(email);
-  }
-
   const sectionChecks = () => {
+    const errorsArr = [];
+
     if (carousel === 0) {
-      if (firstName === "" || lastName === "" || dob === "") {
-        setErrors([...errors, "Please fill out all fields before continuing"]);
+      if (firstName.trim().length === 0) {
+        if (!errorsArr.includes("Please enter a valid first name")) {
+          errorsArr.push("Please enter a valid first name");
+        }
+      } else {
+        errorsArr.filter((error) => error !== "Please enter a valid first name");
       }
 
-      if (dob) {
+      if (lastName.trim().length === 0) {
+        if (!errorsArr.includes("Please enter a valid last name")) {
+          errorsArr.push("Please enter a valid last name");
+        }
+      } else {
+        errorsArr.filter((error) => error !== "Please enter a valid last name");
+      }
+
+      if (dob.trim().length === 0) {
+        if (!errorsArr.includes("Please enter a valid date of birth")) {
+          errorsArr.push("Please enter a valid date of birth");
+        }
+      } else {
         const dobVal = new Date(dob);
         const today = new Date();
         const cutoffDate = new Date(
@@ -93,41 +70,139 @@ export default function Home() {
           today.getMonth(),
           today.getDate()
         );
-        if (dobVal > cutoffDate) {
-          setErrors([...errors, "You must be 18 years or older to create an account"]);
-        } else {
-          setDob(formatDateToMonthDayYear(dob));
-        }
-      }
 
-      if (errors.length === 0) {
-        setCarousel(carousel + 1);
+        if (dobVal > cutoffDate) {
+          if (!errorsArr.includes("You must be 18 years or older to create an account")) {
+            errorsArr.push("You must be 18 years or older to create an account");
+          }
+        } else {
+          errorsArr.filter((error) => error !== "You must be 18 years or older to create an account");
+        }
       }
 
     } else if (carousel === 1) {
-      if (email === "" || phone === "" || address === "" || city === "" || state === "" || country === "" || zip === "") {
-        setErrors([...errors, "Please fill out all fields before continuing"]);
-      }
-
-      if (email) {
-        if (!isValidEmail(email)) {
-          setErrors([...errors, "Please enter a valid email address"]);
+      if (!isValidEmail(email)) {
+        if (!errorsArr.includes("Please enter a valid email address")) {
+          errorsArr.push("Please enter a valid email address");
         }
-      }
-
-      if (phone.length === 10) {
-        setPhone(formatPhoneNumberFlexible(phone));
-      } else if (phone.length > 10) {
-        setErrors([...errors, "Please enter a valid phone number"]);
-      }
-
-      if (zip.length === 5) {
-        setZip(zip);
       } else {
-        setErrors([...errors, "Please enter a valid zip code"]);
+        errorsArr.filter((error) => error !== "Please enter a valid email address");
       }
+
+      if (phone.trim().length !== 10) {
+        if (!errorsArr.includes("Please enter a valid phone number")) {
+          errorsArr.push("Please enter a valid phone number");
+        }
+      } else {
+        errorsArr.filter((error) => error !== "Please enter a valid phone number");
+      }
+
+      if (address.trim().length === 0) {
+        if (!errorsArr.includes("Please enter a valid address")) {
+          errorsArr.push("Please enter a valid address");
+        }
+      } else {
+        errorsArr.filter((error) => error !== "Please enter a valid address");
+      }
+
+      if (city.trim().length === 0) {
+        if (!errorsArr.includes("Please enter a valid city")) {
+          errorsArr.push("Please enter a valid city");
+        }
+      } else {
+        errorsArr.filter((error) => error !== "Please enter a valid city");
+      }
+
+      if (state.length === 0) {
+        if (!errorsArr.includes("Please enter a valid state")) {
+          errorsArr.push("Please enter a valid state");
+        }
+      } else {
+        errorsArr.filter((error) => error !== "Please enter a valid state");
+      }
+
+      if (country.length === 0) {
+        if (!errorsArr.includes("Please enter a valid country")) {
+          errorsArr.push("Please enter a valid country");
+        }
+      } else {
+        errorsArr.filter((error) => error !== "Please enter a valid country");
+      }
+
+      if (zip.trim().length !== 5) {
+        if (!errorsArr.includes("Please enter a valid zip code")) {
+          errorsArr.push("Please enter a valid zip code");
+        }
+      } else {
+        errorsArr.filter((error) => error !== "Please enter a valid zip code");
+      }
+
+    } else if (carousel === 2) {
+
+      if (taxId.trim().length === 0) {
+        if (!errorsArr.includes("Please enter a valid tax ID")) {
+          errorsArr.push("Please enter a valid tax ID");
+        }
+      } else if (taxId.length !== 9) {
+        if (!errorsArr.includes("Please enter a valid tax ID")) {
+          errorsArr.push("Please enter a valid tax ID");
+        }
+      } else {
+        errorsArr.filter((error) => error !== "Please enter a valid tax ID");
+      }
+
+      if (taxIdType.length === 0) {
+        if (!errorsArr.includes("Please enter a valid tax ID type")) {
+          errorsArr.push("Please enter a valid tax ID type");
+        }
+      } else {
+        errorsArr.filter((error) => error !== "Please enter a valid tax ID type");
+      }
+
+      if (countryOfCitizenship.length === 0) {
+        if (!errorsArr.includes("Please enter a valid country of citizenship")) {
+          errorsArr.push("Please enter a valid country of citizenship");
+        }
+      } else {
+        errorsArr.filter((error) => error !== "Please enter a valid country of citizenship");
+      }
+
+      if (countryOfBirth.length === 0) {
+        if (!errorsArr.includes("Please enter a valid country of birth")) {
+          errorsArr.push("Please enter a valid country of birth");
+        }
+      } else {
+        errorsArr.filter((error) => error !== "Please enter a valid country of birth");
+      }
+
+      if (countryOfResidence.length === 0) {
+        if (!errorsArr.includes("Please enter a valid country of residence")) {
+          errorsArr.push("Please enter a valid country of residence");
+        }
+      } else {
+        errorsArr.filter((error) => error !== "Please enter a valid country of residence");
+      }
+
+      if (fundingSource.trim().length === 0) {
+        if (!errorsArr.includes("Please enter a valid funding source")) {
+          errorsArr.push("Please enter a valid funding source");
+        }
+      } else {
+        errorsArr.filter((error) => error !== "Please enter a valid funding source");
+      }
+    };
+
+    if (errorsArr.length === 0) {
+      setErrors([]);
+    } else {
+      setErrors(errorsArr);
     }
   };
+
+  useEffect(() => {
+    sectionChecks();
+  }, [carousel, firstName, middleName, lastName, dob, email, phone, address, unit, city, state, country, zip, taxId, taxIdType, countryOfCitizenship, countryOfBirth, countryOfResidence, fundingSource]);
+
 
   return (
     <div className={styles.page}>
@@ -137,13 +212,14 @@ export default function Home() {
           <div className={styles.progressContainer}>
             <div
               className={styles.progressBar}
-              style={{ width: `${33 * (carousel + 1)}%` }}
+              style={{ width: `${25 * (carousel + 1)}%` }}
             ></div>
           </div>
           <form
             style={{ transform: `translateX(-${carousel * 100}%)` }}
             className={styles.formContainer}
           >
+            {/*<---------------------------------------section 1--------------------------------------------> */}
             <div className={styles.formInnerWrapper}>
               <h2>1. Identity</h2>
               <div className={styles.formRow}>
@@ -192,7 +268,11 @@ export default function Home() {
                   <div className={styles.underline}></div>
                 </div>
               </div>
+              <div style={{ visibility: carousel === 0 ? 'visible' : 'hidden' }}>
+                {errors?.map((error, id) => <p className={styles.error} key={id}>{error}</p>)}
+              </div>
             </div>
+            {/*<-------------------------------------section 2----------------------------------------------> */}
             <div className={styles.formInnerWrapper}>
               <h2>2. Contact</h2>
               <div className={styles.formRow}>
@@ -251,26 +331,36 @@ export default function Home() {
                   <label>City</label>
                 </div>
                 <div className={styles.inputData}>
-                  <input
+                  <select
                     onChange={e => setState(e.target.value)}
                     value={state}
-                    type="text"
                     required
-                  />
+                  >
+                    <option value="">Select a state</option>
+                    {states.map((state, index) => (
+                      <option key={index} value={state}>
+                        {state}
+                      </option>
+                    ))}
+                  </select>
                   <div className={styles.underline}></div>
-                  <label>State</label>
                 </div>
               </div>
               <div className={styles.formRow}>
                 <div className={styles.inputData}>
-                  <input
+                  <select
                     onChange={e => setCountry(e.target.value)}
                     value={country}
-                    type="text"
                     required
-                  />
+                  >
+                    <option value="">Select a Country</option>
+                    {countries.map((country, index) => (
+                      <option key={index} value={country}>
+                        {country}
+                      </option>
+                    ))}
+                  </select>
                   <div className={styles.underline}></div>
-                  <label>Country</label>
                 </div>
                 <div className={styles.inputData}>
                   <input
@@ -283,7 +373,11 @@ export default function Home() {
                   <label>Zip</label>
                 </div>
               </div>
+              <div style={{ visibility: carousel === 1 ? 'visible' : 'hidden' }}>
+                {errors?.map((error, id) => <p className={styles.error} key={id}>{error}</p>)}
+              </div>
             </div>
+            {/*<------------------------------------section 3-----------------------------------------------> */}
             <div className={styles.formInnerWrapper}>
               <h2>3. Fincancial</h2>
               <div className={styles.formRow}>
@@ -298,48 +392,68 @@ export default function Home() {
                   <label>Tax ID</label>
                 </div>
                 <div className={styles.inputData}>
-                  <input
+                  <select
                     onChange={e => setTaxIdType(e.target.value)}
                     value={taxIdType}
-                    type="text"
                     required
-                  />
+                  >
+                    <option value="">Tax ID Type</option>
+                    {taxIdTypes.map((type, index) => (
+                      <option key={index} value={type}>
+                        {type}
+                      </option>
+                    ))}
+                  </select>
                   <div className={styles.underline}></div>
-                  <label>Tax ID Type</label>
                 </div>
               </div>
               <div className={styles.formRow}>
                 <div className={styles.inputData}>
-                  <input
+                  <select
                     onChange={e => setCountryOfCitizenship(e.target.value)}
                     value={countryOfCitizenship}
-                    type="text"
                     required
-                  />
+                  >
+                    <option value="">Country of Citizenship</option>
+                    {countries.map((country, index) => (
+                      <option key={index} value={country}>
+                        {country}
+                      </option>
+                    ))}
+                  </select>
                   <div className={styles.underline}></div>
-                  <label>Country of Citizenship</label>
                 </div>
                 <div className={styles.inputData}>
-                  <input
+                  <select
                     onChange={e => setCountryOfBirth(e.target.value)}
                     value={countryOfBirth}
-                    type="text"
                     required
-                  />
+                  >
+                    <option value="">Country of Birth</option>
+                    {countries.map((country, index) => (
+                      <option key={index} value={country}>
+                        {country}
+                      </option>
+                    ))}
+                  </select>
                   <div className={styles.underline}></div>
-                  <label>Country of Birth</label>
                 </div>
               </div>
               <div className={styles.formRow}>
                 <div className={styles.inputData}>
-                  <input
+                  <select
                     onChange={e => setCountryOfResidence(e.target.value)}
                     value={countryOfResidence}
-                    type="text"
                     required
-                  />
+                  >
+                    <option value="">Country of Residence</option>
+                    {countries.map((country, index) => (
+                      <option key={index} value={country}>
+                        {country}
+                      </option>
+                    ))}
+                  </select>
                   <div className={styles.underline}></div>
-                  <label>Country of Residence</label>
                 </div>
                 <div className={styles.inputData}>
                   <input
@@ -352,6 +466,14 @@ export default function Home() {
                   <label>Funding Source</label>
                 </div>
               </div>
+              <div style={{ visibility: carousel === 2 ? 'visible' : 'hidden' }}>
+                {errors?.map((error, id) => <p className={styles.error} key={id}>{error}</p>)}
+              </div>
+            </div>
+            {/*<---------------------------------------section 4--------------------------------------------> */}
+            <div className={styles.formInnerWrapper}>
+              <h2>4. Review</h2>
+                
             </div>
           </form>
         </div>
@@ -364,10 +486,11 @@ export default function Home() {
             Back
           </button>
           <button
-            onClick={() => sectionChecks()}
+            onClick={() => setCarousel(carousel + 1)}
+            disabled={errors.length > 0}
             className={styles.nextBtn}
           >
-            {carousel === 2 ? "Submit" : "Next"}
+            {carousel === 3 ? "Submit" : "Next"}
           </button>
         </div>
       </div>
