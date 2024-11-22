@@ -93,10 +93,10 @@
 }
 
 .inputData input:focus ~ label,
-.textarea textarea:focus ~ label,
 .inputData input:valid ~ label,
-.textarea textarea:valid ~ label {
-  transform: translateY(-20px);
+.inputData select:focus ~ label,
+.inputData select:valid ~ label {
+  transform: translateY(-30px);
   font-size: 14px;
   color: #3498db;
 }
@@ -264,8 +264,11 @@
 }
 
 .summarySection p {
-  word-break: break-all;
-  /* padding: .5rem 0; */
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  width: 200px; /* Set the desired width */
+  position: relative; /* Needed for the absolute positioning of the hover content */
 }
 
 .summaryInnerSection {

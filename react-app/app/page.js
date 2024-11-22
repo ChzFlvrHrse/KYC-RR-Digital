@@ -270,6 +270,16 @@ export default function Home() {
                     onClick={datePickerHandler}
                     required
                   />
+                  <label
+                    style={{
+                      zIndex: 1,
+                      backgroundColor: '#121212',
+                      paddingRight: '10px',
+
+                    }}
+                  >
+                    Date of Birth
+                  </label>
                   <div className={styles.underline}></div>
                 </div>
               </div>
@@ -341,13 +351,18 @@ export default function Home() {
                     value={state}
                     required
                   >
-                    <option value="">Select a state</option>
+                    <option style={{ display: 'none'}} value=""></option>
                     {states.map((state, index) => (
                       <option key={index} value={state}>
                         {state}
                       </option>
                     ))}
                   </select>
+                  <label
+                    style={{ zIndex: 1 }}
+                  >
+                    Select a State
+                  </label>
                   <div className={styles.underline}></div>
                 </div>
               </div>
@@ -358,13 +373,18 @@ export default function Home() {
                     value={country}
                     required
                   >
-                    <option value="">Select a Country</option>
+                    <option style={{ display: 'none'}} value=""></option>
                     {countries.map((country, index) => (
                       <option key={index} value={country}>
                         {country}
                       </option>
                     ))}
                   </select>
+                  <label
+                    style={{ zIndex: 1 }}
+                  >
+                    Select a Country
+                  </label>
                   <div className={styles.underline}></div>
                 </div>
                 <div className={styles.inputData}>
@@ -402,13 +422,18 @@ export default function Home() {
                     value={taxIdType}
                     required
                   >
-                    <option value="">Tax ID Type</option>
+                    <option style={{ display: 'none'}} value=""></option>
                     {taxIdTypes.map((type, index) => (
                       <option key={index} value={type}>
                         {type}
                       </option>
                     ))}
                   </select>
+                  <label
+                    style={{ zIndex: 1 }}
+                  >
+                    Tax ID Type
+                  </label>
                   <div className={styles.underline}></div>
                 </div>
               </div>
@@ -419,13 +444,18 @@ export default function Home() {
                     value={countryOfCitizenship}
                     required
                   >
-                    <option value="">Country of Citizenship</option>
+                    <option style={{ display: 'none'}} value=""></option>
                     {countries.map((country, index) => (
                       <option key={index} value={country}>
                         {country}
                       </option>
                     ))}
                   </select>
+                  <label
+                    style={{ zIndex: 1 }}
+                  >
+                    Country of Citizenship
+                  </label>
                   <div className={styles.underline}></div>
                 </div>
                 <div className={styles.inputData}>
@@ -434,13 +464,18 @@ export default function Home() {
                     value={countryOfBirth}
                     required
                   >
-                    <option value="">Country of Birth</option>
+                    <option style={{ display: 'none'}} value=""></option>
                     {countries.map((country, index) => (
                       <option key={index} value={country}>
                         {country}
                       </option>
                     ))}
                   </select>
+                  <label
+                    style={{ zIndex: 1 }}
+                  >
+                    Country of Birth
+                  </label>
                   <div className={styles.underline}></div>
                 </div>
               </div>
@@ -451,13 +486,18 @@ export default function Home() {
                     value={countryOfResidence}
                     required
                   >
-                    <option value="">Country of Residence</option>
+                    <option style={{ display: 'none'}} value=""></option>
                     {countries.map((country, index) => (
                       <option key={index} value={country}>
                         {country}
                       </option>
                     ))}
                   </select>
+                  <label
+                    style={{ zIndex: 1 }}
+                  >
+                    Country of Residence
+                  </label>
                   <div className={styles.underline}></div>
                 </div>
                 <div className={styles.inputData}>
@@ -466,13 +506,18 @@ export default function Home() {
                     value={fundingSource}
                     required
                   >
-                    <option value="">Funding Source</option>
+                    <option style={{ display: 'none'}} value=""></option>
                     {incomeSources.map((source, index) => (
                       <option key={index} value={source}>
                         {source}
                       </option>
                     ))}
                   </select>
+                  <label
+                    style={{ zIndex: 1 }}
+                  >
+                    Funding Source
+                  </label>
                   <div className={styles.underline}></div>
                 </div>
               </div>
@@ -498,7 +543,9 @@ export default function Home() {
                             {field[0]}:
                           </p>
                         </b>
-                        <p>
+                        <p
+                         title={field[1]}
+                         >
                           {field[1]}
                         </p>
                       </div>
@@ -521,8 +568,9 @@ export default function Home() {
             onClick={() => carousel < 3 ? setCarousel(carousel + 1) : null}
             disabled={errors.length > 0}
             className={styles.nextBtn}
+            style={{ visibility: carousel === 3 ? "hidden" : "visible" }}
           >
-            {carousel === 3 ? "Submit" : "Next"}
+            Next
           </button>
         </div>
       </div>
