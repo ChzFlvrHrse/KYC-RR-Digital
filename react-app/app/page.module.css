@@ -8,10 +8,235 @@
 
 .tile {
   display: flex;
+  flex-direction: column;
   justify-content: center;
-  align-items: center;
   background-color: #0c0c0c;
   height: 90%;
   width: 60%;
+  max-width: 725px;
+  min-width: 400px;
   border-radius: 1.25%;
+  overflow: hidden;
+}
+
+.formWrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  height: 100%;
+  /* padding-left: 1rem;
+  padding-right: 1rem; */
+  padding-top: 1rem;
+}
+
+.inputData input {
+  outline: none;
+}
+
+.container {
+  max-width: 800px;
+  background: #fff;
+  width: 800px;
+  padding: 25px 40px 10px 40px;
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+}
+
+.container .text {
+  text-align: center;
+  font-size: 41px;
+  font-weight: 600;
+  font-family: 'Poppins', sans-serif;
+  background: -webkit-linear-gradient(right, #56d8e4, #9f01ea, #56d8e4, #9f01ea);
+  -webkit-background-clip: text;
+  background-clip: none;
+  -webkit-text-fill-color: transparent;
+}
+
+.container form {
+  padding: 30px 0 0 0;
+}
+
+.formRow {
+  display: flex;
+  flex-direction: row;
+  margin: 32px 0;
+}
+
+.formRow .inputData {
+  width: 100%;
+  height: 40px;
+  margin-right: 20px;
+  position: relative;
+}
+
+.formRow .textarea {
+  height: 70px;
+}
+
+.inputData input,
+.textarea textarea {
+  display: block;
+  width: 100%;
+  height: 100%;
+  border: none;
+  font-size: 17px;
+  border-bottom: 2px solid rgba(0, 0, 0, 0.12);
+}
+
+.inputData input:focus ~ label,
+.textarea textarea:focus ~ label,
+.inputData input:valid ~ label,
+.textarea textarea:valid ~ label {
+  transform: translateY(-20px);
+  font-size: 14px;
+  color: #3498db;
+}
+
+.textarea textarea {
+  resize: none;
+  padding-top: 10px;
+}
+
+.inputData label {
+  position: absolute;
+  pointer-events: none;
+  bottom: 10px;
+  font-size: 16px;
+  transition: all 0.3s ease;
+}
+
+.textarea label {
+  width: 100%;
+  bottom: 40px;
+  background: #fff;
+}
+
+.inputData .underline {
+  position: absolute;
+  bottom: 0;
+  height: 2px;
+  width: 100%;
+}
+
+.inputData .underline:before {
+  position: absolute;
+  content: "";
+  height: 2px;
+  width: 100%;
+  background: #3498db;
+  transform: scaleX(0);
+  transform-origin: center;
+  transition: transform 0.3s ease;
+}
+
+.inputData input:focus ~ .underline:before,
+.inputData input:valid ~ .underline:before,
+.textarea textarea:focus ~ .underline:before,
+.textarea textarea:valid ~ .underline:before {
+  transform: scale(1);
+}
+
+.submitBtn .inputData {
+  overflow: hidden;
+  height: 45px!important;
+  width: 25%!important;
+}
+
+.submitBtn .inputData .inner {
+  height: 100%;
+  width: 300%;
+  position: absolute;
+  left: -100%;
+  background: -webkit-linear-gradient(right, #56d8e4, #9f01ea, #56d8e4, #9f01ea);
+  transition: all 0.4s;
+}
+
+.submitBtn .inputData:hover .inner {
+  left: 0;
+}
+
+.submitBtn .inputData input {
+  background: none;
+  border: none;
+  color: #fff;
+  font-size: 17px;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  cursor: pointer;
+  position: relative;
+  z-index: 2;
+}
+
+.formContainer {
+  display: flex;
+  flex-direction: row;
+  /* justify-content: center; */
+  width: 100%;
+  padding-top: 1rem;
+  transition: transform 0.5s ease-in-out;
+}
+
+
+.formInnerWrapper {
+  display: flex;
+  flex-direction: column;
+  min-width: 100%;
+  padding: 0 1rem;
+  /* margin-right: 1rem; */
+}
+
+.nextBtnContainer {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  padding: 1rem;
+}
+
+.nextBtnContainer button {
+  padding: 1rem 3rem;
+  border: none;
+  border-radius: .25rem;
+  background: #3498db;
+}
+
+.nextBtnContainer button:hover {
+  background: #2980b9;
+}
+
+.progressContainer {
+  display: flex;
+  justify-content: center;
+  width: 100%;
+  padding: 1rem;
+}
+
+.progressBar {
+  display: flex;
+  width: 100%;
+  padding: .10rem 0;
+  background-size: 300% 100%;
+}
+
+@media (max-width: 700px) {
+  .container .text {
+    font-size: 30px;
+  }
+
+  .container form {
+    padding: 10px 0 0 0;
+  }
+
+  .container form .formRow {
+    display: block;
+  }
+
+  form .formRow .inputData {
+    margin: 35px 0!important;
+  }
+
+  .submitBtn .inputData {
+    width: 40%!important;
+  }
 }
