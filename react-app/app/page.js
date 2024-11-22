@@ -5,6 +5,7 @@ import styles from "./page.module.css";
 
 export default function Home() {
   const [carousel, setCarousel] = useState(0);
+  const [errors, setErrors] = useState([]);
 
   const [firstName, setFirstName] = useState("");
   const [middleName, setMiddleName] = useState("");
@@ -20,15 +21,12 @@ export default function Home() {
   const [country, setCountry] = useState("");
   const [zip, setZip] = useState("");
 
-  const arr = [0, 1, 2];
-
-  // useEffect(() => {
-  //   if (phone.length === 10) {
-  //     setPhone(formatPhoneNumberFlexible(phone));
-  //   } else if (phone.length > 10) {
-
-  //   }
-  // }, []);
+  const [taxId, setTaxId] = useState("");
+  const [taxIdType, setTaxIdType] = useState("");
+  const [countryOfCitizenship, setCountryOfCitizenship] = useState("");
+  const [countryOfBirth, setCountryOfBirth] = useState("");
+  const [countryOfResidence, setCountryOfResidence] = useState("");
+  const [fundingSource, setFundingSource] = useState("");
 
   const datePickerHandler = (e) => {
     e.preventDefault();
@@ -81,19 +79,66 @@ export default function Home() {
     return emailRegex.test(email);
   }
 
+  const sectionChecks = () => {
+    if (carousel === 0) {
+      if (firstName === "" || lastName === "" || dob === "") {
+        setErrors([...errors, "Please fill out all fields before continuing"]);
+      }
+
+      if (dob) {
+        const dobVal = new Date(dob);
+        const today = new Date();
+        const cutoffDate = new Date(
+          today.getFullYear() - 18,
+          today.getMonth(),
+          today.getDate()
+        );
+        if (dobVal > cutoffDate) {
+          setErrors([...errors, "You must be 18 years or older to create an account"]);
+        } else {
+          setDob(formatDateToMonthDayYear(dob));
+        }
+      }
+
+      if (errors.length === 0) {
+        setCarousel(carousel + 1);
+      }
+
+    } else if (carousel === 1) {
+      if (email === "" || phone === "" || address === "" || city === "" || state === "" || country === "" || zip === "") {
+        setErrors([...errors, "Please fill out all fields before continuing"]);
+      }
+
+      if (email) {
+        if (!isValidEmail(email)) {
+          setErrors([...errors, "Please enter a valid email address"]);
+        }
+      }
+
+      if (phone.length === 10) {
+        setPhone(formatPhoneNumberFlexible(phone));
+      } else if (phone.length > 10) {
+        setErrors([...errors, "Please enter a valid phone number"]);
+      }
+
+      if (zip.length === 5) {
+        setZip(zip);
+      } else {
+        setErrors([...errors, "Please enter a valid zip code"]);
+      }
+    }
+  };
+
   return (
     <div className={styles.page}>
       <div className={styles.tile}>
         <div className={styles.formWrapper}>
           <h1 className={styles.header}>Create Account</h1>
           <div className={styles.progressContainer}>
-            {arr.map((item, index) => (
-              <div
-                key={index}
-                className={styles.progressBar}
-                style={{ backgroundColor: index <= carousel ? '#3498db' : 'white' }}
-              ></div>
-            ))}
+            <div
+              className={styles.progressBar}
+              style={{ width: `${33 * (carousel + 1)}%` }}
+            ></div>
           </div>
           <form
             style={{ transform: `translateX(-${carousel * 100}%)` }}
@@ -120,7 +165,7 @@ export default function Home() {
                     required
                   />
                   <div className={styles.underline}></div>
-                  <label>Middle Name</label>
+                  <label>Middle Name {'(optional)'}</label>
                 </div>
               </div>
               <div className={styles.formRow}>
@@ -149,7 +194,7 @@ export default function Home() {
               </div>
             </div>
             <div className={styles.formInnerWrapper}>
-              <h2>2. Contact Info</h2>
+              <h2>2. Contact</h2>
               <div className={styles.formRow}>
                 <div className={styles.inputData}>
                   <input
@@ -217,7 +262,7 @@ export default function Home() {
                 </div>
               </div>
               <div className={styles.formRow}>
-              <div className={styles.inputData}>
+                <div className={styles.inputData}>
                   <input
                     onChange={e => setCountry(e.target.value)}
                     value={country}
@@ -239,17 +284,88 @@ export default function Home() {
                 </div>
               </div>
             </div>
+            <div className={styles.formInnerWrapper}>
+              <h2>3. Fincancial</h2>
+              <div className={styles.formRow}>
+                <div className={styles.inputData}>
+                  <input
+                    onChange={e => setTaxId(e.target.value)}
+                    value={taxId}
+                    type="text"
+                    required
+                  />
+                  <div className={styles.underline}></div>
+                  <label>Tax ID</label>
+                </div>
+                <div className={styles.inputData}>
+                  <input
+                    onChange={e => setTaxIdType(e.target.value)}
+                    value={taxIdType}
+                    type="text"
+                    required
+                  />
+                  <div className={styles.underline}></div>
+                  <label>Tax ID Type</label>
+                </div>
+              </div>
+              <div className={styles.formRow}>
+                <div className={styles.inputData}>
+                  <input
+                    onChange={e => setCountryOfCitizenship(e.target.value)}
+                    value={countryOfCitizenship}
+                    type="text"
+                    required
+                  />
+                  <div className={styles.underline}></div>
+                  <label>Country of Citizenship</label>
+                </div>
+                <div className={styles.inputData}>
+                  <input
+                    onChange={e => setCountryOfBirth(e.target.value)}
+                    value={countryOfBirth}
+                    type="text"
+                    required
+                  />
+                  <div className={styles.underline}></div>
+                  <label>Country of Birth</label>
+                </div>
+              </div>
+              <div className={styles.formRow}>
+                <div className={styles.inputData}>
+                  <input
+                    onChange={e => setCountryOfResidence(e.target.value)}
+                    value={countryOfResidence}
+                    type="text"
+                    required
+                  />
+                  <div className={styles.underline}></div>
+                  <label>Country of Residence</label>
+                </div>
+                <div className={styles.inputData}>
+                  <input
+                    onChange={e => setFundingSource(e.target.value)}
+                    value={fundingSource}
+                    type="text"
+                    required
+                  />
+                  <div className={styles.underline}></div>
+                  <label>Funding Source</label>
+                </div>
+              </div>
+            </div>
           </form>
         </div>
         <div className={styles.nextBtnContainer}>
           <button
             style={{ visibility: carousel === 0 ? "hidden" : "visible" }}
             onClick={() => setCarousel(carousel - 1)}
+            className={styles.backBtn}
           >
             Back
           </button>
           <button
-            onClick={() => setCarousel(carousel + 1)}
+            onClick={() => sectionChecks()}
+            className={styles.nextBtn}
           >
             {carousel === 2 ? "Submit" : "Next"}
           </button>

@@ -194,29 +194,37 @@
   padding: 1rem;
 }
 
-.nextBtnContainer button {
+.backBtn {
+  background: none;
+  padding: 1rem 3rem;
+  border: none;
+  border-radius: .25rem;
+  background-color: #212121;
+}
+
+.nextBtn {
   padding: 1rem 3rem;
   border: none;
   border-radius: .25rem;
   background: #3498db;
 }
 
-.nextBtnContainer button:hover {
-  background: #2980b9;
+.backBtn:hover, .nextBtn:hover {
+  opacity: .75;
 }
 
 .progressContainer {
   display: flex;
-  justify-content: center;
+  /* justify-content: center; */
   width: 100%;
   padding: 1rem;
 }
 
 .progressBar {
   display: flex;
-  width: 100%;
   padding: .10rem 0;
-  background-size: 300% 100%;
+  background: #3498db;
+  transition: width .5s ease;
 }
 
 @media (max-width: 700px) {
