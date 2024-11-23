@@ -3,6 +3,7 @@
   align-items: center;
   justify-content: center;
   height: 100vh;
+  /* height: 100%; */
   width: 100%;
 }
 
@@ -11,7 +12,7 @@
   flex-direction: column;
   justify-content: center;
   background-color: #0c0c0c;
-  height: 90%;
+  height: 100%;
   width: 60%;
   max-width: 725px;
   min-width: 400px;
@@ -70,6 +71,10 @@
 
 .formRow .textarea {
   height: 70px;
+}
+
+.inputData input:hover {
+  cursor: pointer;
 }
 
 .inputData input,
@@ -169,7 +174,7 @@
   text-transform: uppercase;
   letter-spacing: 1px;
   cursor: pointer;
-  position: relative;
+  /* position: relative; */
   z-index: 2;
 }
 
@@ -275,9 +280,14 @@
   font-weight: 600;
 }
 
+
 @media (max-width: 700px) {
   .container .text {
     font-size: 30px;
+  }
+
+  .inputData select option {
+    height: 5rem;
   }
 
   .container form {
@@ -288,9 +298,14 @@
     display: block;
   }
 
-  form .formRow .inputData {
-    margin: 35px 0!important;
+  .tile {
+    height: 100%;
+    width: 100%;
   }
+
+  /* form .formRow .inputData {
+    margin: 35px 0!important;
+  } */
 
   .submitBtn .inputData {
     width: 40%!important;

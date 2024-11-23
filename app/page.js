@@ -253,9 +253,6 @@ export default function Home() {
                   <div className={styles.underline}></div>
                 </div>
               </div>
-              {/* <div style={{ visibility: carousel === 0 ? 'visible' : 'hidden' }}> */}
-              {/* {errors?.map((error, id) => <p className={styles.error} key={id}>{error}</p>)}
-              </div> */}
             </div>
             {/*<---------------------------------------CONTACT--------------------------------------------> */}
             <div className={styles.formInnerWrapper}>
@@ -321,18 +318,20 @@ export default function Home() {
                   {errors.city && <p className={styles.error}>{errors.city}</p>}
                 </div>
                 <div className={styles.inputData}>
-                  <select
-                    onChange={e => setState(e.target.value)}
-                    value={state}
-                    required
-                  >
-                    <option style={{ display: 'none' }} value=""></option>
-                    {states.map((state, index) => (
-                      <option key={index} value={state}>
-                        {state}
-                      </option>
-                    ))}
-                  </select>
+                    <input
+                      type="text"
+                      list="states"
+                      onChange={e => setState(e.target.value)}
+                      value={state}
+                      required
+                    />
+                    <datalist className={styles.states} id="states">
+                      {states.map((state, index) => (
+                        <option key={index} value={state}>
+                          {state}
+                        </option>
+                      ))}
+                    </datalist>
                   <label
                     style={{ zIndex: 1 }}
                   >
@@ -344,18 +343,20 @@ export default function Home() {
               </div>
               <div className={styles.formRow}>
                 <div className={styles.inputData}>
-                  <select
+                  <input
+                    type="text"
+                    list="countries"
                     onChange={e => setCountry(e.target.value)}
                     value={country}
                     required
-                  >
-                    <option style={{ display: 'none' }} value=""></option>
+                  />
+                  <datalist className={styles.countries} id="countries">
                     {countries.map((country, index) => (
                       <option key={index} value={country}>
                         {country}
                       </option>
                     ))}
-                  </select>
+                  </datalist>
                   <label
                     style={{ zIndex: 1 }}
                   >
@@ -377,9 +378,6 @@ export default function Home() {
                   <div className={styles.underline}></div>
                 </div>
               </div>
-              {/* <div style={{ visibility: carousel === 1 ? 'visible' : 'hidden' }}> */}
-              {/* {errors?.map((error, id) => <p className={styles.error} key={id}>{error}</p>)}
-              </div> */}
             </div>
             {/*<---------------------------------------FINANCIAL--------------------------------------------> */}
             <div className={styles.formInnerWrapper}>
@@ -398,18 +396,20 @@ export default function Home() {
                   {errors.taxId && <p className={styles.error}>{errors.taxId}</p>}
                 </div>
                 <div className={styles.inputData}>
-                  <select
+                  <input
+                    type="text"
+                    list="taxIdTypes"
                     onChange={e => setTaxIdType(e.target.value)}
                     value={taxIdType}
                     required
-                  >
-                    <option style={{ display: 'none' }} value=""></option>
+                  />
+                  <datalist className={styles.taxIdTypes} id="taxIdTypes">
                     {taxIdTypes.map((type, index) => (
                       <option key={index} value={type}>
                         {type}
                       </option>
                     ))}
-                  </select>
+                  </datalist>
                   <label
                     style={{ zIndex: 1 }}
                   >
@@ -421,18 +421,20 @@ export default function Home() {
               </div>
               <div className={styles.formRow}>
                 <div className={styles.inputData}>
-                  <select
+                  <input
+                    type="text"
+                    list="countries"
                     onChange={e => setCountryOfCitizenship(e.target.value)}
                     value={countryOfCitizenship}
                     required
-                  >
-                    <option style={{ display: 'none' }} value=""></option>
+                  />
+                  <datalist className={styles.countries} id="countries">
                     {countries.map((country, index) => (
                       <option key={index} value={country}>
                         {country}
                       </option>
                     ))}
-                  </select>
+                  </datalist>
                   <label
                     style={{ zIndex: 1 }}
                   >
@@ -442,18 +444,20 @@ export default function Home() {
                   <div className={styles.underline}></div>
                 </div>
                 <div className={styles.inputData}>
-                  <select
+                  <input
+                    type="text"
+                    list="countries"
                     onChange={e => setCountryOfBirth(e.target.value)}
                     value={countryOfBirth}
                     required
-                  >
-                    <option style={{ display: 'none' }} value=""></option>
+                  />
+                  <datalist className={styles.countries} id="countries">
                     {countries.map((country, index) => (
                       <option key={index} value={country}>
                         {country}
                       </option>
                     ))}
-                  </select>
+                  </datalist>
                   <label
                     style={{ zIndex: 1 }}
                   >
@@ -465,18 +469,20 @@ export default function Home() {
               </div>
               <div className={styles.formRow}>
                 <div className={styles.inputData}>
-                  <select
+                  <input
+                    type="text"
+                    list="countries"
                     onChange={e => setCountryOfResidence(e.target.value)}
                     value={countryOfResidence}
                     required
-                  >
-                    <option style={{ display: 'none' }} value=""></option>
+                  />
+                  <datalist className={styles.countries} id="countries">
                     {countries.map((country, index) => (
                       <option key={index} value={country}>
                         {country}
                       </option>
                     ))}
-                  </select>
+                  </datalist>
                   <label
                     style={{ zIndex: 1 }}
                   >
@@ -486,18 +492,20 @@ export default function Home() {
                   <div className={styles.underline}></div>
                 </div>
                 <div className={styles.inputData}>
-                  <select
+                  <input
                     onChange={e => setFundingSource(e.target.value)}
                     value={fundingSource}
+                    type="text"
+                    list="income"
                     required
-                  >
-                    <option style={{ display: 'none' }} value=""></option>
+                  />
+                  <datalist className={styles.countries} id="income">
                     {incomeSources.map((source, index) => (
                       <option key={index} value={source}>
                         {source}
                       </option>
                     ))}
-                  </select>
+                  </datalist>
                   <label
                     style={{ zIndex: 1 }}
                   >
