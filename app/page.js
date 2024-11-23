@@ -1,15 +1,17 @@
-'use client';
+'use client'; // Marks this component as a client-side component in Next.js.
 
-import { useState, useEffect } from "react";
-import { states, countries } from "./location";
-import { taxIdTypes, incomeSources } from "./financial";
-import { isValidEmail, containsLetters, formatDateToMonthDayYear, taxIdFormatter, formatPhoneNumberFlexible } from "./formatData";
-import styles from "./page.module.css";
+import { useState, useEffect } from "react"; // Import React hooks for state and lifecycle management.
+import { states, countries } from "./location"; // Import location-related data like states and countries.
+import { taxIdTypes, incomeSources } from "./financial"; // Import financial-related data like tax ID types and income sources.
+import { isValidEmail, containsLettersOrSymbols, formatDateToMonthDayYear, taxIdFormatter, formatPhoneNumberFlexible } from "./formatData"; // Utility functions for data validation and formatting.
+import styles from "./page.module.css"; // Import CSS module for styling.
 
 export default function Home() {
-  const [carousel, setCarousel] = useState(0);
-  const [errors, setErrors] = useState({});
+  // State variables for carousel navigation and error tracking.
+  const [carousel, setCarousel] = useState(0); // Tracks the current step in the form process.
+  const [errors, setErrors] = useState({}); // Object to hold validation errors.
 
+  // State variables for user input in different sections.
   const [firstName, setFirstName] = useState("");
   const [middleName, setMiddleName] = useState("");
   const [lastName, setLastName] = useState("");
@@ -31,17 +33,18 @@ export default function Home() {
   const [countryOfResidence, setCountryOfResidence] = useState("");
   const [fundingSource, setFundingSource] = useState("");
 
+  // Function to trigger the native date picker on click.
   const datePickerHandler = (e) => {
     e.preventDefault();
     const datePicker = document.getElementById("datePicker");
     datePicker.showPicker();
   };
 
+  // Function to validate each section of the form.
   const sectionChecks = () => {
-    // Object to store validation errors with descriptive keys
-    const errorObj = {};
+    const errorObj = {}; // Object to store validation errors.
 
-    if (carousel === 0) {
+    if (carousel === 0) { // Identity section validation.
       if (firstName.trim().length === 0) {
         errorObj.firstName = "Please enter a valid first name";
       } else {
@@ -71,15 +74,15 @@ export default function Home() {
           delete errorObj.dob;
         }
       }
-    } else if (carousel === 1) {
+    } else if (carousel === 1) { // Contact section validation.
       if (!isValidEmail(email)) {
         errorObj.email = "Please enter a valid email address";
       } else {
         delete errorObj.email;
       }
 
-      if (phone.trim().length !== 10 || containsLetters(phone)) {
-        errorObj.phone = containsLetters(phone)
+      if (phone.trim().length !== 10 || containsLettersOrSymbols(phone)) {
+        errorObj.phone = containsLettersOrSymbols(phone)
           ? "Phone number cannot contain letters"
           : "Please enter a valid phone number";
       } else {
@@ -111,15 +114,15 @@ export default function Home() {
       }
 
       if (zip.trim().length !== 5) {
-        errorObj.zip = containsLetters(zip)
+        errorObj.zip = containsLettersOrSymbols(zip)
           ? "Zip code cannot contain letters"
           : "Please enter a valid zip code";
       } else {
         delete errorObj.zip;
       }
-    } else if (carousel === 2) {
+    } else if (carousel === 2) { // Financial section validation.
       if (taxId.trim().length === 0 || taxId.length !== 9) {
-        errorObj.taxId = containsLetters(taxId)
+        errorObj.taxId = containsLettersOrSymbols(taxId)
           ? "Tax ID cannot contain letters"
           : "Please enter a valid tax ID";
       } else {
@@ -157,7 +160,7 @@ export default function Home() {
       }
     }
 
-    // Update state with errors or clear them if no errors
+    // Update state with errors or clear them if no errors exist.
     if (Object.keys(errorObj).length === 0) {
       setErrors({});
     } else {
@@ -165,17 +168,18 @@ export default function Home() {
     }
   };
 
-
+  // Run validation checks when relevant state variables change.
   useEffect(() => {
     sectionChecks();
   }, [carousel, firstName, middleName, lastName, dob, email, phone, address, unit, city, state, country, zip, taxId, taxIdType, countryOfCitizenship, countryOfBirth, countryOfResidence, fundingSource]);
 
+  // Organized user data for summary view.
   const identityInfo = [['First Name', firstName], ['Middle Name', middleName], ['Last Name', lastName], ['Date of Birth', formatDateToMonthDayYear(dob)]];
   const contactInfo = [['Email', email], ['Phone', formatPhoneNumberFlexible(phone)], ['Address', address], ['Unit', unit], ['City', city], ['State', state], ['Country', country], ['Zip', zip]];
   const financialInfo = [['Tax ID', taxIdFormatter(taxId)], ['Tax ID Type', taxIdType], ['Country of Citizenship', countryOfCitizenship], ['Country of Birth', countryOfBirth], ['Country of Residence', countryOfResidence], ['Funding Source', fundingSource]];
 
-  const accountInfo = [identityInfo, contactInfo, financialInfo];
-  const sectionTitles = { 0: "Identity", 1: "Contact", 2: "Financial" };
+  const accountInfo = [identityInfo, contactInfo, financialInfo]; // Combined user data for final summary.
+  const sectionTitles = { 0: "Identity", 1: "Contact", 2: "Financial" }; // Titles for each form section.
 
   return (
     <div className={styles.page}>

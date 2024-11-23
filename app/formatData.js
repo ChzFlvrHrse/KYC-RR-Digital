@@ -18,9 +18,9 @@ function formatPhoneNumberFlexible(phoneNumber) {
     }
 };
 
-function containsLetters(phoneNumber) {
-    const letterRegex = /[a-zA-Z]/; // Regular expression to check for any letters
-    return letterRegex.test(phoneNumber);
+function containsLettersOrSymbols(phoneNumber) {
+    const letterOrSymbolRegex = /[a-zA-Z!@#$%^&*(),.?":{}|<>-_]/; // Regular expression to check for letters, symbols, dashes, and underscores
+    return letterOrSymbolRegex.test(phoneNumber);
 }
 
 function formatDateToMonthDayYear(dateString) {
@@ -54,4 +54,4 @@ function isValidEmail(email) {
     return emailRegex.test(email);
 };
 
-export { formatPhoneNumberFlexible, containsLetters, formatDateToMonthDayYear, taxIdFormatter, isValidEmail };
+export { formatPhoneNumberFlexible, containsLettersOrSymbols, formatDateToMonthDayYear, taxIdFormatter, isValidEmail };
