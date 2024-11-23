@@ -8,11 +8,11 @@ This project is designed to quickly and smoothly gather basic information from a
 
 ## Development Process
 
-The project leverages GitHub Copilot and ChatGPT as powerful tools to enhance development efficiency and code quality:
+The project leverages GitHub Copilot and ChatGPT as powerful tools to enhance development efficiency and code quality.
 
-   GitHub Copilot: Assisted in generating boilerplate code, reusable functions, and improving productivity during repetitive coding tasks.
+GitHub Copilot: Assisted in generating boilerplate code, reusable functions, and improving productivity during repetitive coding tasks.
 
-   ChatGPT: Helped with designing user-friendly error validation logic, improving code readability, and providing detailed documentation and comments.
+ChatGPT: Helped with designing user-friendly error validation logic, improving code readability, and providing detailed documentation and comments.
 
 By integrating these tools into the workflow, this project was built faster while maintaining a focus on clarity, usability, and robust validation features.
 
