@@ -61,7 +61,7 @@ yarn dev
 http://localhost:3000
 ```
 
-##📚 Additional Libraries/Tools Used
+## 📚 Additional Libraries/Tools Used
 React: For building the UI and managing component state.
 
 Next.js: Framework for React that includes server-side rendering and routing.
