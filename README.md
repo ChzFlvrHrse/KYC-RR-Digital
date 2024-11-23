@@ -2,7 +2,11 @@ This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-
 
 # KYC Form (Know Your Client)
 
-## Getting Star
+📖 Overview
+
+This project is designed to quickly and smoothly gather basic information from a given client. It provides an interactive user interface for collecting identity, contact, and financial details while ensuring input validation.
+
+## Getting Started
 
 First, run the development server:
 
