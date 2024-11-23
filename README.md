@@ -4,7 +4,7 @@ This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-
 
 ## 📖 Overview
 
-This project is designed to quickly and smoothly gather basic information from a given client. It provides an interactive user interface for collecting identity, contact, and financial details while ensuring input validation as well as mobile adapted offering a responsive design that ensures usability across various screen sizes and devices.
+This project is designed to quickly and smoothly gather basic information from a given client. It provides an interactive user interface for collecting identity, contact, and financial details while ensuring input validation.
 
 Link to test website: [KYC Form](https://kyc-rr-digital.vercel.app/) 
 
