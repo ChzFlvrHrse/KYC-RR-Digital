@@ -6,6 +6,8 @@ This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-
 
 This project is designed to quickly and smoothly gather basic information from a given client. It provides an interactive user interface for collecting identity, contact, and financial details while ensuring input validation.
 
+Link to test website: [KYC Form](https://kyc-rr-digital.vercel.app/) 
+
 ## Development Process
 
 The project leverages GitHub Copilot and ChatGPT as powerful tools to enhance development efficiency and code quality.
