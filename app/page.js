@@ -1,22 +1,26 @@
 'use client'; // Marks this component as a client-side component in Next.js.
 
 import { useState, useEffect } from "react"; // Import React hooks for state and lifecycle management.
-import { states, countries } from "./location"; // Import location-related data like states and countries.
-import { taxIdTypes, incomeSources } from "./financial"; // Import financial-related data like tax ID types and income sources.
-import { isValidEmail, containsLettersOrSymbols, formatDateToMonthDayYear, taxIdFormatter, formatPhoneNumberFlexible } from "./formatData"; // Utility functions for data validation and formatting.
+import { formatDateToMonthDayYear, taxIdFormatter, formatPhoneNumberFlexible } from "./formatData"; // Utility functions for data validation and formatting.
 import styles from "./page.module.css"; // Import CSS module for styling.
+
+import { Identity } from "./sections/identity";
+import { Contact } from "./sections/contact";
+import { Financial } from "./sections/financial";
+import { sectionChecks } from "./sections/sectionCheck";
 
 export default function Home() {
   // State variables for carousel navigation and error tracking.
   const [carousel, setCarousel] = useState(0); // Tracks the current step in the form process.
-  const [errors, setErrors] = useState({}); // Object to hold validation errors.
+  const [errors, setErrors] = useState({}); // State to store form validation errors.
 
-  // State variables for user input in different sections.
+  // Identity section state variables.
   const [firstName, setFirstName] = useState("");
   const [middleName, setMiddleName] = useState("");
   const [lastName, setLastName] = useState("");
   const [dob, setDob] = useState("");
 
+  // Contact section state variables.
   const [email, setEmail] = useState("");
   const [phone, setPhone] = useState("");
   const [address, setAddress] = useState("");
@@ -26,6 +30,7 @@ export default function Home() {
   const [country, setCountry] = useState("");
   const [zip, setZip] = useState("");
 
+  // Financial section state variables.
   const [taxId, setTaxId] = useState('');
   const [taxIdType, setTaxIdType] = useState("");
   const [countryOfCitizenship, setCountryOfCitizenship] = useState("");
@@ -33,144 +38,11 @@ export default function Home() {
   const [countryOfResidence, setCountryOfResidence] = useState("");
   const [fundingSource, setFundingSource] = useState("");
 
-  // Function to trigger the native date picker on click.
-  const datePickerHandler = (e) => {
-    e.preventDefault();
-    const datePicker = document.getElementById("datePicker");
-    datePicker.showPicker();
-  };
-
-  // Function to validate each section of the form.
-  const sectionChecks = () => {
-    const errorObj = {}; // Object to store validation errors.
-
-    if (carousel === 0) { // Identity section validation.
-      if (firstName.trim().length === 0) {
-        errorObj.firstName = "Please enter a valid first name";
-      } else {
-        delete errorObj.firstName;
-      }
-
-      if (lastName.trim().length === 0) {
-        errorObj.lastName = "Please enter a valid last name";
-      } else {
-        delete errorObj.lastName;
-      }
-
-      if (dob.trim().length === 0) {
-        errorObj.dob = "Please enter a valid date of birth";
-      } else {
-        const dobVal = new Date(dob);
-        const today = new Date();
-        const cutoffDate = new Date(
-          today.getFullYear() - 18,
-          today.getMonth(),
-          today.getDate()
-        );
-
-        if (dobVal > cutoffDate) {
-          errorObj.dob = "You must be 18 years or older to create an account";
-        } else {
-          delete errorObj.dob;
-        }
-      }
-    } else if (carousel === 1) { // Contact section validation.
-      if (!isValidEmail(email)) {
-        errorObj.email = "Please enter a valid email address";
-      } else {
-        delete errorObj.email;
-      }
-
-      if (phone.trim().length !== 10 || containsLettersOrSymbols(phone)) {
-        errorObj.phone = containsLettersOrSymbols(phone)
-          ? "Phone number cannot contain letters"
-          : "Please enter a valid phone number";
-      } else {
-        delete errorObj.phone;
-      }
-
-      if (address.trim().length === 0) {
-        errorObj.address = "Please enter a valid address";
-      } else {
-        delete errorObj.address;
-      }
-
-      if (city.trim().length === 0) {
-        errorObj.city = "Please enter a valid city";
-      } else {
-        delete errorObj.city;
-      }
-
-      if (state.length === 0) {
-        errorObj.state = "Please enter a valid state";
-      } else {
-        delete errorObj.state;
-      }
-
-      if (country.length === 0) {
-        errorObj.country = "Please enter a valid country";
-      } else {
-        delete errorObj.country;
-      }
-
-      if (zip.trim().length !== 5) {
-        errorObj.zip = containsLettersOrSymbols(zip)
-          ? "Zip code cannot contain letters"
-          : "Please enter a valid zip code";
-      } else {
-        delete errorObj.zip;
-      }
-    } else if (carousel === 2) { // Financial section validation.
-      if (taxId.trim().length === 0 || taxId.length !== 9) {
-        errorObj.taxId = containsLettersOrSymbols(taxId)
-          ? "Tax ID cannot contain letters"
-          : "Please enter a valid tax ID";
-      } else {
-        delete errorObj.taxId;
-      }
-
-      if (taxIdType.length === 0) {
-        errorObj.taxIdType = "Please enter a valid tax ID type";
-      } else {
-        delete errorObj.taxIdType;
-      }
-
-      if (countryOfCitizenship.length === 0) {
-        errorObj.countryOfCitizenship = "Please enter a valid country of citizenship";
-      } else {
-        delete errorObj.countryOfCitizenship;
-      }
-
-      if (countryOfBirth.length === 0) {
-        errorObj.countryOfBirth = "Please enter a valid country of birth";
-      } else {
-        delete errorObj.countryOfBirth;
-      }
-
-      if (countryOfResidence.length === 0) {
-        errorObj.countryOfResidence = "Please enter a valid country of residence";
-      } else {
-        delete errorObj.countryOfResidence;
-      }
-
-      if (fundingSource.trim().length === 0) {
-        errorObj.fundingSource = "Please enter a valid funding source";
-      } else {
-        delete errorObj.fundingSource;
-      }
-    }
-
-    // Update state with errors or clear them if no errors exist.
-    if (Object.keys(errorObj).length === 0) {
-      setErrors({});
-    } else {
-      setErrors(errorObj);
-    }
-  };
+  const errorChecks = sectionChecks(firstName, lastName, dob, phone, email, address, city, state, country, zip, taxId, taxIdType, countryOfCitizenship, countryOfBirth, countryOfResidence, fundingSource, carousel);
 
   // Run validation checks when relevant state variables change.
   useEffect(() => {
-    sectionChecks();
+    setErrors(errorChecks);
   }, [carousel, firstName, middleName, lastName, dob, email, phone, address, unit, city, state, country, zip, taxId, taxIdType, countryOfCitizenship, countryOfBirth, countryOfResidence, fundingSource]);
 
   // Organized user data for summary view.
@@ -197,330 +69,57 @@ export default function Home() {
             className={styles.formContainer}
           >
             {/*<---------------------------------------IDENTITY--------------------------------------------> */}
-            <div className={styles.formInnerWrapper}>
-              <h2>1. Identity</h2>
-              <div className={styles.formRow}>
-                <div className={styles.inputData}>
-                  <input
-                    onChange={e => setFirstName(e.target.value)}
-                    value={firstName}
-                    type="text"
-                    required
-                  />
-                  <div className={styles.underline}></div>
-                  <label>First Name</label>
-                  {errors.firstName && <p className={styles.error}>{errors.firstName}</p>}
-                </div>
-                <div className={styles.inputData}>
-                  <input
-                    onChange={e => setMiddleName(e.target.value)}
-                    value={middleName}
-                    type="text"
-                    required
-                  />
-                  <div className={styles.underline}></div>
-                  <label>Middle Name {'(optional)'}</label>
-                </div>
-              </div>
-              <div className={styles.formRow}>
-                <div className={styles.inputData}>
-                  <input
-                    onChange={e => setLastName(e.target.value)}
-                    value={lastName}
-                    type="text"
-                    required
-                  />
-                  <div className={styles.underline}></div>
-                  <label>Last Name</label>
-                  {errors.lastName && <p className={styles.error}>{errors.lastName}</p>}
-                </div>
-                <div className={styles.inputData}>
-                  <input
-                    onChange={e => setDob(e.target.value)}
-                    value={dob}
-                    type="date"
-                    id="datePicker"
-                    className="datePicker"
-                    onClick={datePickerHandler}
-                    required
-                  />
-                  <label
-                    style={{ zIndex: 1, paddingRight: '10px' }}
-                  >
-                    Date of Birth
-                  </label>
-                  {errors.dob && <p className={styles.error}>{errors.dob}</p>}
-                  <div className={styles.underline}></div>
-                </div>
-              </div>
-            </div>
+            <Identity
+              firstName={firstName}
+              setFirstName={setFirstName}
+              middleName={middleName}
+              setMiddleName={setMiddleName}
+              lastName={lastName}
+              setLastName={setLastName}
+              dob={dob}
+              setDob={setDob}
+              errors={errors}
+            />
             {/*<---------------------------------------CONTACT--------------------------------------------> */}
-            <div className={styles.formInnerWrapper}>
-              <h2>2. Contact</h2>
-              <div className={styles.formRow}>
-                <div className={styles.inputData}>
-                  <input
-                    onChange={e => setEmail(e.target.value)}
-                    value={email}
-                    type="text"
-                    required
-                  />
-                  <div className={styles.underline}></div>
-                  <label>Email</label>
-                  {errors.email && <p className={styles.error}>{errors.email}</p>}
-                </div>
-                <div className={styles.inputData}>
-                  <input
-                    onChange={e => setPhone(e.target.value)}
-                    value={phone}
-                    type="text"
-                    maxLength={10}
-                    required
-                  />
-                  <div className={styles.underline}></div>
-                  <label>Phone #</label>
-                  {errors.phone && <p className={styles.error}>{errors.phone}</p>}
-                </div>
-              </div>
-              <div className={styles.formRow}>
-                <div className={styles.inputData}>
-                  <input
-                    onChange={e => setAddress(e.target.value)}
-                    value={address}
-                    type="text"
-                    required
-                  />
-                  <div className={styles.underline}></div>
-                  <label>Address</label>
-                  {errors.address && <p className={styles.error}>{errors.address}</p>}
-                </div>
-                <div className={styles.inputData}>
-                  <input
-                    onChange={e => setUnit(e.target.value)}
-                    value={unit}
-                    type="text"
-                    required
-                  />
-                  <div className={styles.underline}></div>
-                  <label>Unit {'(optional)'}</label>
-                </div>
-              </div>
-              <div className={styles.formRow}>
-                <div className={styles.inputData}>
-                  <input
-                    onChange={e => setCity(e.target.value)}
-                    value={city}
-                    type="text"
-                    required
-                  />
-                  <div className={styles.underline}></div>
-                  <label>City</label>
-                  {errors.city && <p className={styles.error}>{errors.city}</p>}
-                </div>
-                <div className={styles.inputData}>
-                    <input
-                      type="text"
-                      list="states"
-                      onChange={e => setState(e.target.value)}
-                      value={state}
-                      required
-                    />
-                    <datalist className={styles.states} id="states">
-                      {states.map((state, index) => (
-                        <option key={index} value={state}>
-                          {state}
-                        </option>
-                      ))}
-                    </datalist>
-                  <label
-                    style={{ zIndex: 1 }}
-                  >
-                    Select a State
-                  </label>
-                  {errors.state && <p className={styles.error}>{errors.state}</p>}
-                  <div className={styles.underline}></div>
-                </div>
-              </div>
-              <div className={styles.formRow}>
-                <div className={styles.inputData}>
-                  <input
-                    type="text"
-                    list="countries"
-                    onChange={e => setCountry(e.target.value)}
-                    value={country}
-                    required
-                  />
-                  <datalist className={styles.countries} id="countries">
-                    {countries.map((country, index) => (
-                      <option key={index} value={country}>
-                        {country}
-                      </option>
-                    ))}
-                  </datalist>
-                  <label
-                    style={{ zIndex: 1 }}
-                  >
-                    Select a Country
-                  </label>
-                  {errors.country && <p className={styles.error}>{errors.country}</p>}
-                  <div className={styles.underline}></div>
-                </div>
-                <div className={styles.inputData}>
-                  <input
-                    onChange={e => setZip(e.target.value)}
-                    value={zip}
-                    type="text"
-                    maxLength={5}
-                    required
-                  />
-                  <label>Zip</label>
-                  {errors.zip && <p className={styles.error}>{errors.zip}</p>}
-                  <div className={styles.underline}></div>
-                </div>
-              </div>
-            </div>
+            <Contact
+              email={email}
+              setEmail={setEmail}
+              phone={phone}
+              setPhone={setPhone}
+              address={address}
+              setAddress={setAddress}
+              unit={unit}
+              setUnit={setUnit}
+              city={city}
+              setCity={setCity}
+              state={state}
+              setState={setState}
+              country={country}
+              setCountry={setCountry}
+              zip={zip}
+              setZip={setZip}
+              errors={errors}
+            />
             {/*<---------------------------------------FINANCIAL--------------------------------------------> */}
-            <div className={styles.formInnerWrapper}>
-              <h2>3. Fincancial</h2>
-              <div className={styles.formRow}>
-                <div className={styles.inputData}>
-                  <input
-                    onChange={e => setTaxId(e.target.value)}
-                    value={taxId}
-                    type="text"
-                    maxLength={9}
-                    required
-                  />
-                  <div className={styles.underline}></div>
-                  <label>Tax ID</label>
-                  {errors.taxId && <p className={styles.error}>{errors.taxId}</p>}
-                </div>
-                <div className={styles.inputData}>
-                  <input
-                    type="text"
-                    list="taxIdTypes"
-                    onChange={e => setTaxIdType(e.target.value)}
-                    value={taxIdType}
-                    required
-                  />
-                  <datalist className={styles.taxIdTypes} id="taxIdTypes">
-                    {taxIdTypes.map((type, index) => (
-                      <option key={index} value={type}>
-                        {type}
-                      </option>
-                    ))}
-                  </datalist>
-                  <label
-                    style={{ zIndex: 1 }}
-                  >
-                    Tax ID Type
-                  </label>
-                  {errors.taxIdType && <p className={styles.error}>{errors.taxIdType}</p>}
-                  <div className={styles.underline}></div>
-                </div>
-              </div>
-              <div className={styles.formRow}>
-                <div className={styles.inputData}>
-                  <input
-                    type="text"
-                    list="countries"
-                    onChange={e => setCountryOfCitizenship(e.target.value)}
-                    value={countryOfCitizenship}
-                    required
-                  />
-                  <datalist className={styles.countries} id="countries">
-                    {countries.map((country, index) => (
-                      <option key={index} value={country}>
-                        {country}
-                      </option>
-                    ))}
-                  </datalist>
-                  <label
-                    style={{ zIndex: 1 }}
-                  >
-                    Country of Citizenship
-                  </label>
-                  {errors.countryOfCitizenship && <p className={styles.error}>{errors.countryOfCitizenship}</p>}
-                  <div className={styles.underline}></div>
-                </div>
-                <div className={styles.inputData}>
-                  <input
-                    type="text"
-                    list="countries"
-                    onChange={e => setCountryOfBirth(e.target.value)}
-                    value={countryOfBirth}
-                    required
-                  />
-                  <datalist className={styles.countries} id="countries">
-                    {countries.map((country, index) => (
-                      <option key={index} value={country}>
-                        {country}
-                      </option>
-                    ))}
-                  </datalist>
-                  <label
-                    style={{ zIndex: 1 }}
-                  >
-                    Country of Birth
-                  </label>
-                  {errors.countryOfBirth && <p className={styles.error}>{errors.countryOfBirth}</p>}
-                  <div className={styles.underline}></div>
-                </div>
-              </div>
-              <div className={styles.formRow}>
-                <div className={styles.inputData}>
-                  <input
-                    type="text"
-                    list="countries"
-                    onChange={e => setCountryOfResidence(e.target.value)}
-                    value={countryOfResidence}
-                    required
-                  />
-                  <datalist className={styles.countries} id="countries">
-                    {countries.map((country, index) => (
-                      <option key={index} value={country}>
-                        {country}
-                      </option>
-                    ))}
-                  </datalist>
-                  <label
-                    style={{ zIndex: 1 }}
-                  >
-                    Country of Residence
-                  </label>
-                  {errors.countryOfResidence && <p className={styles.error}>{errors.countryOfResidence}</p>}
-                  <div className={styles.underline}></div>
-                </div>
-                <div className={styles.inputData}>
-                  <input
-                    onChange={e => setFundingSource(e.target.value)}
-                    value={fundingSource}
-                    type="text"
-                    list="income"
-                    required
-                  />
-                  <datalist className={styles.countries} id="income">
-                    {incomeSources.map((source, index) => (
-                      <option key={index} value={source}>
-                        {source}
-                      </option>
-                    ))}
-                  </datalist>
-                  <label
-                    style={{ zIndex: 1 }}
-                  >
-                    Funding Source
-                  </label>
-                  {errors.fundingSource && <p className={styles.error}>{errors.fundingSource}</p>}
-                  <div className={styles.underline}></div>
-                </div>
-              </div>
-            </div>
+            <Financial
+              taxId={taxId}
+              setTaxId={setTaxId}
+              taxIdType={taxIdType}
+              setTaxIdType={setTaxIdType}
+              countryOfCitizenship={countryOfCitizenship}
+              setCountryOfCitizenship={setCountryOfCitizenship}
+              countryOfBirth={countryOfBirth}
+              setCountryOfBirth={setCountryOfBirth}
+              countryOfResidence={countryOfResidence}
+              setCountryOfResidence={setCountryOfResidence}
+              fundingSource={fundingSource}
+              setFundingSource={setFundingSource}
+              errors={errors}
+            />
             {/*<---------------------------------------SUMMARY--------------------------------------------> */}
-            <div className={styles.formInnerWrapper}>
+            <div className={styles.formSummary}>
               <h2>4. Summary</h2>
               <div className={styles.summaryContainer}>
-                <div className={styles.summaryInner}>
                 {accountInfo.map((section, index) => (
                   <div key={index} className={styles.summarySection}>
                     <h3 className={styles.sectionTitle}>{sectionTitles[index]}</h3>
@@ -544,11 +143,9 @@ export default function Home() {
                     ))}
                   </div>
                 ))}
-                </div>
               </div>
             </div>
           </form>
-        </div>
         <div className={styles.nextBtnContainer}>
           <button
             style={{ visibility: carousel === 0 ? "hidden" : "visible" }}
@@ -567,6 +164,7 @@ export default function Home() {
           </button>
         </div>
       </div>
+        </div>
     </div>
   );
 }

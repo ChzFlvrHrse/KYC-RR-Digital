@@ -17,6 +17,7 @@
   min-width: 400px;
   border-radius: 1.25%;
   overflow: hidden;
+  position: relative;
 }
 
 .formWrapper {
@@ -184,19 +185,26 @@
   transition: transform 0.5s ease-in-out;
 }
 
-
-.formInnerWrapper {
+.formInnerWrapper, .formSummary {
   display: flex;
   flex-direction: column;
   min-width: 100%;
   padding: 0 1rem;
 }
 
+.formSummary {
+  height: 100%;
+}
+
 .nextBtnContainer {
   display: flex;
   justify-content: space-between;
+  background: #0c0c0c;
   width: 100%;
-  padding: 1rem;
+  padding: 0 1rem;
+  padding-bottom: 1rem;
+  position: absolute;
+  bottom: 0;
 }
 
 .backBtn {
@@ -245,35 +253,38 @@
 
 .summaryContainer {
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
   justify-content: space-between;
   align-items: flex-start;
   width: 100%;
-  height: 100%;
-  overflow-x: scroll;
+  /* height: 100vh; */
+  height: 80%;
+  padding: 1rem 0;
+  overflow-y: scroll;
 }
 
-.summaryInner {
+.summaryWrapper {
   display: flex;
   flex-direction: row;
-  justify-content: space-between;
   width: 100%;
   height: 100%;
+  /* padding: 1rem; */
+  overflow-y: scroll;
 }
 
 .summarySection {
   display: flex;
   flex-direction: column;
   width: 100%;
-  padding: 1rem;
+  padding: 0 1rem;
 }
 
 .summarySection p {
-  white-space: nowrap;
+  /* white-space: nowrap; */
+  /* text-overflow: ellipsis; */
   word-break: break-all;
   overflow: hidden;
-  text-overflow: ellipsis;
-  width: 225px; /* Set the desired width */
+  width: 100%; /* Set the desired width */
   position: relative; /* Needed for the absolute positioning of the hover content */
 }
 
@@ -281,13 +292,14 @@
   display: flex;
   flex-direction: column;
   width: 100%;
-  padding: 1rem 0;
+  padding: .5rem 0;
 }
-
 
 .sectionTitle {
   font-size: 1.5rem;
   font-weight: 600;
+  border-bottom: white 1px solid;
+  /* width: fit-content; */
 }
 
 @media (max-height: 450px) {
@@ -303,7 +315,7 @@
 }
 
 
-@media (max-width: 700px) {
+@media (max-width: 850px) {
   .container .text {
     font-size: 30px;
   }
@@ -338,7 +350,16 @@
     width: 40%!important;
   }
 
-  .summarySection p {
-    /* width: 100%; */
+  .summaryContainer {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: flex-start;
+    width: 100%;
+    height: 60%;
+  }
+
+  .summarySection {
+    margin-bottom: 2rem;
   }
 }
