@@ -290,6 +290,18 @@
   font-weight: 600;
 }
 
+@media (max-height: 450px) {
+  .page {
+    height: 100%;
+    width: 100%;
+  }
+
+  .tile {
+    height: 100%;
+    width: 100%;
+  }
+}
+
 
 @media (max-width: 700px) {
   .container .text {
