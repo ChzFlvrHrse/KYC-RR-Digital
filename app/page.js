@@ -146,25 +146,25 @@ export default function Home() {
               </div>
             </div>
           </form>
-        <div className={styles.nextBtnContainer}>
-          <button
-            style={{ visibility: carousel === 0 ? "hidden" : "visible" }}
-            onClick={() => setCarousel(carousel - 1)}
-            className={styles.backBtn}
-          >
-            Back
-          </button>
-          <button
-            onClick={() => carousel < 3 ? setCarousel(carousel + 1) : null}
-            disabled={Object.keys(errors).length > 0}
-            className={styles.nextBtn}
-            style={{ visibility: carousel === 3 ? "hidden" : "visible" }}
-          >
-            Next
-          </button>
+          <div className={styles.nextBtnContainer}>
+            <button
+              style={{ visibility: carousel === 0 ? "hidden" : "visible" }}
+              onClick={() => setCarousel(carousel - 1)}
+              className={styles.backBtn}
+            >
+              Back
+            </button>
+            <button
+              onClick={() => carousel < 3 ? setCarousel(carousel + 1) : null}
+              disabled={Object.keys(errors).length > 0}
+              className={styles.nextBtn}
+              style={{ visibility: carousel === 3 ? "hidden" : "visible" }}
+            >
+              Next
+            </button>
+          </div>
         </div>
       </div>
-        </div>
     </div>
   );
 }

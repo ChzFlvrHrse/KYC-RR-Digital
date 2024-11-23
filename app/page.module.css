@@ -31,6 +31,7 @@
 
 .inputData input {
   outline: none;
+  background-color: #251e24;
 }
 
 .container {
@@ -89,7 +90,7 @@
 }
 
 .inputData label{
-  background-color: #121212;
+  background-color: #251e24;
 }
 
 .inputData input:focus ~ label,
@@ -185,11 +186,22 @@
   transition: transform 0.5s ease-in-out;
 }
 
+.forScrolling {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  height: 100%;
+  /* padding: 1rem; */
+  overflow-y: auto;
+}
+
 .formInnerWrapper, .formSummary {
   display: flex;
   flex-direction: column;
   min-width: 100%;
+  /* height: 100%; */
   padding: 0 1rem;
+  /* overflow-y: scroll; */
 }
 
 .formSummary {
@@ -325,7 +337,7 @@
   }
 
   .inputData {
-    margin: 1rem 0;
+    margin: 1.5rem 0;
   }
 
   .inputData select option {
@@ -356,6 +368,7 @@
     align-items: flex-start;
     width: 100%;
     height: 60%;
+    overflow-y: scroll;
   }
 
   .nextBtnContainer {
@@ -371,5 +384,14 @@
 
   .summarySection {
     margin-bottom: 2rem;
+  }
+
+  .forScrolling {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    height: 80%;
+    /* padding: 1rem; */
+    overflow-y: scroll;
   }
 }
