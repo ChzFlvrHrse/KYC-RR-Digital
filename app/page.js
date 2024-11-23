@@ -158,7 +158,7 @@ export default function Home() {
               onClick={() => carousel < 3 ? setCarousel(carousel + 1) : null}
               disabled={Object.keys(errors).length > 0}
               className={styles.nextBtn}
-              style={{ visibility: carousel === 3 ? "hidden" : "visible" }}
+              style={{ visibility: carousel === 3 ? "hidden" : "visible", color: 'white' }}
             >
               Next
             </button>

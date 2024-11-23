@@ -17,7 +17,7 @@
   min-width: 400px;
   border-radius: 1.25%;
   overflow: hidden;
-  position: relative;
+  /* position: relative; */
 }
 
 .formWrapper {
@@ -378,8 +378,8 @@
     padding: 0 1rem;
     padding-bottom: 1rem;
     width: 100%;
-    position: absolute;
-    bottom: 0;
+    /* position: absolute;
+    bottom: 0; */
   }
 
   .summarySection {
