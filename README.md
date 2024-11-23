@@ -70,8 +70,11 @@ CSS Modules: For scoped and maintainable styling.
 
 Utility Libraries:
     isValidEmail: Custom utility to validate email addresses.
+    
     containsLetters: Function to check for letters and invalid symbols in phone numbers.
+    
     taxIdFormatter: Formats tax IDs for user display.
+    
     formatPhoneNumberFlexible: Flexible phone number formatter.
     
 Icons/Styling: You can replace or extend styles using the styles object imported from page.module.css.
