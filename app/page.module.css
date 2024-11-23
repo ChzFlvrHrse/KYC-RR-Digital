@@ -92,12 +92,17 @@
   border-bottom: 2px solid rgba(0, 0, 0, 0.12);
 }
 
+.inputData label{
+  background-color: #121212;
+}
+
 .inputData input:focus ~ label,
 .inputData input:valid ~ label,
 .inputData select:focus ~ label,
 .inputData select:valid ~ label {
   transform: translateY(-30px);
   font-size: 14px;
+  background-color: transparent;
   color: #3498db;
 }
 

@@ -271,12 +271,7 @@ export default function Home() {
                     required
                   />
                   <label
-                    style={{
-                      zIndex: 1,
-                      backgroundColor: '#121212',
-                      paddingRight: '10px',
-
-                    }}
+                    style={{ zIndex: 1, paddingRight: '10px' }}
                   >
                     Date of Birth
                   </label>
@@ -351,7 +346,7 @@ export default function Home() {
                     value={state}
                     required
                   >
-                    <option style={{ display: 'none'}} value=""></option>
+                    <option style={{ display: 'none' }} value=""></option>
                     {states.map((state, index) => (
                       <option key={index} value={state}>
                         {state}
@@ -373,7 +368,7 @@ export default function Home() {
                     value={country}
                     required
                   >
-                    <option style={{ display: 'none'}} value=""></option>
+                    <option style={{ display: 'none' }} value=""></option>
                     {countries.map((country, index) => (
                       <option key={index} value={country}>
                         {country}
@@ -422,7 +417,7 @@ export default function Home() {
                     value={taxIdType}
                     required
                   >
-                    <option style={{ display: 'none'}} value=""></option>
+                    <option style={{ display: 'none' }} value=""></option>
                     {taxIdTypes.map((type, index) => (
                       <option key={index} value={type}>
                         {type}
@@ -444,7 +439,7 @@ export default function Home() {
                     value={countryOfCitizenship}
                     required
                   >
-                    <option style={{ display: 'none'}} value=""></option>
+                    <option style={{ display: 'none' }} value=""></option>
                     {countries.map((country, index) => (
                       <option key={index} value={country}>
                         {country}
@@ -464,7 +459,7 @@ export default function Home() {
                     value={countryOfBirth}
                     required
                   >
-                    <option style={{ display: 'none'}} value=""></option>
+                    <option style={{ display: 'none' }} value=""></option>
                     {countries.map((country, index) => (
                       <option key={index} value={country}>
                         {country}
@@ -486,7 +481,7 @@ export default function Home() {
                     value={countryOfResidence}
                     required
                   >
-                    <option style={{ display: 'none'}} value=""></option>
+                    <option style={{ display: 'none' }} value=""></option>
                     {countries.map((country, index) => (
                       <option key={index} value={country}>
                         {country}
@@ -506,7 +501,7 @@ export default function Home() {
                     value={fundingSource}
                     required
                   >
-                    <option style={{ display: 'none'}} value=""></option>
+                    <option style={{ display: 'none' }} value=""></option>
                     {incomeSources.map((source, index) => (
                       <option key={index} value={source}>
                         {source}
@@ -544,8 +539,8 @@ export default function Home() {
                           </p>
                         </b>
                         <p
-                         title={field[1]}
-                         >
+                          title={field[1]}
+                        >
                           {field[1]}
                         </p>
                       </div>
