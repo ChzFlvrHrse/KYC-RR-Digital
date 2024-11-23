@@ -26,3 +26,5 @@ Responsive design for better usability across devices.
 ## Getting Started
 
 ## Steps
+### 1.) Clone the Repository:
+ `git clone https://github.com/your-username/your-repo-name.git`
