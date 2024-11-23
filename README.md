@@ -37,3 +37,26 @@ Replace your-username and your-repo-name with the appropriate GitHub details.
 ```
 cd your-repo-name
 ```
+
+### 3.) Install Dependencies: Run the following command to install all required packages:
+```
+ npm run dev
+```
+or
+```
+yarn dev
+```
+
+### 4.) Start the Development Server: To start the project locally:
+```
+ npm run dev
+```
+or
+```
+yarn dev
+```
+
+### 5.) Access the Application: Open your browser and go to:
+```
+http://localhost:3000
+```
