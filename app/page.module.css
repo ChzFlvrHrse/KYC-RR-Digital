@@ -245,7 +245,6 @@
 
 .summaryContainer {
   display: flex;
-  /* flex-direction: row; */
   flex-direction: column;
   justify-content: space-between;
   align-items: flex-start;
@@ -321,10 +320,6 @@
     height: 100%;
     width: 100%;
   }
-
-  /* form .formRow .inputData {
-    margin: 35px 0!important;
-  } */
 
   .submitBtn .inputData {
     width: 40%!important;
