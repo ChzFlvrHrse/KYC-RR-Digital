@@ -17,7 +17,7 @@
   min-width: 400px;
   border-radius: 1.25%;
   overflow: hidden;
-  /* position: relative; */
+  position: relative;
 }
 
 .formWrapper {
@@ -368,7 +368,6 @@
     align-items: flex-start;
     width: 100%;
     height: 60%;
-    overflow-y: scroll;
   }
 
   .nextBtnContainer {
@@ -378,8 +377,8 @@
     padding: 0 1rem;
     padding-bottom: 1rem;
     width: 100%;
-    /* position: absolute;
-    bottom: 0; */
+    position: absolute;
+    bottom: 0;
   }
 
   .summarySection {
@@ -390,7 +389,7 @@
     display: flex;
     flex-direction: column;
     width: 100%;
-    height: 80%;
+    height: 0%;
     /* padding: 1rem; */
     overflow-y: scroll;
   }
