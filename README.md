@@ -19,7 +19,7 @@ Responsive design for better usability across devices.
 ## 🛠️ How to Run It Locally
 
 ### Prerequisites
-1.) Node.js installed (version 18.x or later recommended).
+1.) Node.js installed (version 18.18 or later required).
 
 2.) A package manager like npm or yarn.
 
@@ -39,9 +39,6 @@ cd your-repo-name
 ```
 
 ### 3.) Install Dependencies: Run the following command to install all required packages:
-
-Meke sure you're using Node version 18.18 or higher
-
 ```
  npm run dev
 ```
