@@ -3,12 +3,12 @@
 import { useState, useEffect } from "react";
 import { states, countries } from "./location";
 import { taxIdTypes, incomeSources } from "./financial";
-import { isValidEmail, formatDateToMonthDayYear, taxIdFormatter, formatPhoneNumberFlexible } from "./formatData";
+import { isValidEmail, containsLetters, formatDateToMonthDayYear, taxIdFormatter, formatPhoneNumberFlexible } from "./formatData";
 import styles from "./page.module.css";
 
 export default function Home() {
   const [carousel, setCarousel] = useState(0);
-  const [errors, setErrors] = useState([]);
+  const [errors, setErrors] = useState({});
 
   const [firstName, setFirstName] = useState("");
   const [middleName, setMiddleName] = useState("");
@@ -38,29 +38,24 @@ export default function Home() {
   };
 
   const sectionChecks = () => {
-    const errorsArr = [];
+    // Object to store validation errors with descriptive keys
+    const errorObj = {};
 
     if (carousel === 0) {
       if (firstName.trim().length === 0) {
-        if (!errorsArr.includes("Please enter a valid first name")) {
-          errorsArr.push("Please enter a valid first name");
-        }
+        errorObj.firstName = "Please enter a valid first name";
       } else {
-        errorsArr.filter((error) => error !== "Please enter a valid first name");
+        delete errorObj.firstName;
       }
 
       if (lastName.trim().length === 0) {
-        if (!errorsArr.includes("Please enter a valid last name")) {
-          errorsArr.push("Please enter a valid last name");
-        }
+        errorObj.lastName = "Please enter a valid last name";
       } else {
-        errorsArr.filter((error) => error !== "Please enter a valid last name");
+        delete errorObj.lastName;
       }
 
       if (dob.trim().length === 0) {
-        if (!errorsArr.includes("Please enter a valid date of birth")) {
-          errorsArr.push("Please enter a valid date of birth");
-        }
+        errorObj.dob = "Please enter a valid date of birth";
       } else {
         const dobVal = new Date(dob);
         const today = new Date();
@@ -71,132 +66,105 @@ export default function Home() {
         );
 
         if (dobVal > cutoffDate) {
-          if (!errorsArr.includes("You must be 18 years or older to create an account")) {
-            errorsArr.push("You must be 18 years or older to create an account");
-          }
+          errorObj.dob = "You must be 18 years or older to create an account";
         } else {
-          errorsArr.filter((error) => error !== "You must be 18 years or older to create an account");
+          delete errorObj.dob;
         }
       }
-
     } else if (carousel === 1) {
       if (!isValidEmail(email)) {
-        if (!errorsArr.includes("Please enter a valid email address")) {
-          errorsArr.push("Please enter a valid email address");
-        }
+        errorObj.email = "Please enter a valid email address";
       } else {
-        errorsArr.filter((error) => error !== "Please enter a valid email address");
+        delete errorObj.email;
       }
 
-      if (phone.trim().length !== 10) {
-        if (!errorsArr.includes("Please enter a valid phone number")) {
-          errorsArr.push("Please enter a valid phone number");
-        }
+      if (phone.trim().length !== 10 || containsLetters(phone)) {
+        errorObj.phone = containsLetters(phone)
+          ? "Phone number cannot contain letters"
+          : "Please enter a valid phone number";
       } else {
-        errorsArr.filter((error) => error !== "Please enter a valid phone number");
+        delete errorObj.phone;
       }
 
       if (address.trim().length === 0) {
-        if (!errorsArr.includes("Please enter a valid address")) {
-          errorsArr.push("Please enter a valid address");
-        }
+        errorObj.address = "Please enter a valid address";
       } else {
-        errorsArr.filter((error) => error !== "Please enter a valid address");
+        delete errorObj.address;
       }
 
       if (city.trim().length === 0) {
-        if (!errorsArr.includes("Please enter a valid city")) {
-          errorsArr.push("Please enter a valid city");
-        }
+        errorObj.city = "Please enter a valid city";
       } else {
-        errorsArr.filter((error) => error !== "Please enter a valid city");
+        delete errorObj.city;
       }
 
       if (state.length === 0) {
-        if (!errorsArr.includes("Please enter a valid state")) {
-          errorsArr.push("Please enter a valid state");
-        }
+        errorObj.state = "Please enter a valid state";
       } else {
-        errorsArr.filter((error) => error !== "Please enter a valid state");
+        delete errorObj.state;
       }
 
       if (country.length === 0) {
-        if (!errorsArr.includes("Please enter a valid country")) {
-          errorsArr.push("Please enter a valid country");
-        }
+        errorObj.country = "Please enter a valid country";
       } else {
-        errorsArr.filter((error) => error !== "Please enter a valid country");
+        delete errorObj.country;
       }
 
       if (zip.trim().length !== 5) {
-        if (!errorsArr.includes("Please enter a valid zip code")) {
-          errorsArr.push("Please enter a valid zip code");
-        }
+        errorObj.zip = containsLetters(zip)
+          ? "Zip code cannot contain letters"
+          : "Please enter a valid zip code";
       } else {
-        errorsArr.filter((error) => error !== "Please enter a valid zip code");
+        delete errorObj.zip;
       }
-
     } else if (carousel === 2) {
-
-      if (taxId.trim().length === 0) {
-        if (!errorsArr.includes("Please enter a valid tax ID")) {
-          errorsArr.push("Please enter a valid tax ID");
-        }
-      } else if (taxId.length !== 9) {
-        if (!errorsArr.includes("Please enter a valid tax ID")) {
-          errorsArr.push("Please enter a valid tax ID");
-        }
+      if (taxId.trim().length === 0 || taxId.length !== 9) {
+        errorObj.taxId = containsLetters(taxId)
+          ? "Tax ID cannot contain letters"
+          : "Please enter a valid tax ID";
       } else {
-        errorsArr.filter((error) => error !== "Please enter a valid tax ID");
+        delete errorObj.taxId;
       }
 
       if (taxIdType.length === 0) {
-        if (!errorsArr.includes("Please enter a valid tax ID type")) {
-          errorsArr.push("Please enter a valid tax ID type");
-        }
+        errorObj.taxIdType = "Please enter a valid tax ID type";
       } else {
-        errorsArr.filter((error) => error !== "Please enter a valid tax ID type");
+        delete errorObj.taxIdType;
       }
 
       if (countryOfCitizenship.length === 0) {
-        if (!errorsArr.includes("Please enter a valid country of citizenship")) {
-          errorsArr.push("Please enter a valid country of citizenship");
-        }
+        errorObj.countryOfCitizenship = "Please enter a valid country of citizenship";
       } else {
-        errorsArr.filter((error) => error !== "Please enter a valid country of citizenship");
+        delete errorObj.countryOfCitizenship;
       }
 
       if (countryOfBirth.length === 0) {
-        if (!errorsArr.includes("Please enter a valid country of birth")) {
-          errorsArr.push("Please enter a valid country of birth");
-        }
+        errorObj.countryOfBirth = "Please enter a valid country of birth";
       } else {
-        errorsArr.filter((error) => error !== "Please enter a valid country of birth");
+        delete errorObj.countryOfBirth;
       }
 
       if (countryOfResidence.length === 0) {
-        if (!errorsArr.includes("Please enter a valid country of residence")) {
-          errorsArr.push("Please enter a valid country of residence");
-        }
+        errorObj.countryOfResidence = "Please enter a valid country of residence";
       } else {
-        errorsArr.filter((error) => error !== "Please enter a valid country of residence");
+        delete errorObj.countryOfResidence;
       }
 
       if (fundingSource.trim().length === 0) {
-        if (!errorsArr.includes("Please enter a valid funding source")) {
-          errorsArr.push("Please enter a valid funding source");
-        }
+        errorObj.fundingSource = "Please enter a valid funding source";
       } else {
-        errorsArr.filter((error) => error !== "Please enter a valid funding source");
+        delete errorObj.fundingSource;
       }
-    };
+    }
 
-    if (errorsArr.length === 0) {
-      setErrors([]);
+    // Update state with errors or clear them if no errors
+    if (Object.keys(errorObj).length === 0) {
+      setErrors({});
     } else {
-      setErrors(errorsArr);
+      setErrors(errorObj);
     }
   };
+
 
   useEffect(() => {
     sectionChecks();
@@ -237,6 +205,7 @@ export default function Home() {
                   />
                   <div className={styles.underline}></div>
                   <label>First Name</label>
+                  {errors.firstName && <p className={styles.error}>{errors.firstName}</p>}
                 </div>
                 <div className={styles.inputData}>
                   <input
@@ -259,6 +228,7 @@ export default function Home() {
                   />
                   <div className={styles.underline}></div>
                   <label>Last Name</label>
+                  {errors.lastName && <p className={styles.error}>{errors.lastName}</p>}
                 </div>
                 <div className={styles.inputData}>
                   <input
@@ -275,12 +245,13 @@ export default function Home() {
                   >
                     Date of Birth
                   </label>
+                  {errors.dob && <p className={styles.error}>{errors.dob}</p>}
                   <div className={styles.underline}></div>
                 </div>
               </div>
-              <div style={{ visibility: carousel === 0 ? 'visible' : 'hidden' }}>
-                {errors?.map((error, id) => <p className={styles.error} key={id}>{error}</p>)}
-              </div>
+              {/* <div style={{ visibility: carousel === 0 ? 'visible' : 'hidden' }}> */}
+              {/* {errors?.map((error, id) => <p className={styles.error} key={id}>{error}</p>)}
+              </div> */}
             </div>
             {/*<---------------------------------------CONTACT--------------------------------------------> */}
             <div className={styles.formInnerWrapper}>
@@ -295,16 +266,19 @@ export default function Home() {
                   />
                   <div className={styles.underline}></div>
                   <label>Email</label>
+                  {errors.email && <p className={styles.error}>{errors.email}</p>}
                 </div>
                 <div className={styles.inputData}>
                   <input
                     onChange={e => setPhone(e.target.value)}
                     value={phone}
                     type="text"
+                    maxLength={10}
                     required
                   />
                   <div className={styles.underline}></div>
                   <label>Phone #</label>
+                  {errors.phone && <p className={styles.error}>{errors.phone}</p>}
                 </div>
               </div>
               <div className={styles.formRow}>
@@ -317,6 +291,7 @@ export default function Home() {
                   />
                   <div className={styles.underline}></div>
                   <label>Address</label>
+                  {errors.address && <p className={styles.error}>{errors.address}</p>}
                 </div>
                 <div className={styles.inputData}>
                   <input
@@ -339,6 +314,7 @@ export default function Home() {
                   />
                   <div className={styles.underline}></div>
                   <label>City</label>
+                  {errors.city && <p className={styles.error}>{errors.city}</p>}
                 </div>
                 <div className={styles.inputData}>
                   <select
@@ -358,6 +334,7 @@ export default function Home() {
                   >
                     Select a State
                   </label>
+                  {errors.state && <p className={styles.error}>{errors.state}</p>}
                   <div className={styles.underline}></div>
                 </div>
               </div>
@@ -380,6 +357,7 @@ export default function Home() {
                   >
                     Select a Country
                   </label>
+                  {errors.country && <p className={styles.error}>{errors.country}</p>}
                   <div className={styles.underline}></div>
                 </div>
                 <div className={styles.inputData}>
@@ -387,15 +365,17 @@ export default function Home() {
                     onChange={e => setZip(e.target.value)}
                     value={zip}
                     type="text"
+                    maxLength={5}
                     required
                   />
-                  <div className={styles.underline}></div>
                   <label>Zip</label>
+                  {errors.zip && <p className={styles.error}>{errors.zip}</p>}
+                  <div className={styles.underline}></div>
                 </div>
               </div>
-              <div style={{ visibility: carousel === 1 ? 'visible' : 'hidden' }}>
-                {errors?.map((error, id) => <p className={styles.error} key={id}>{error}</p>)}
-              </div>
+              {/* <div style={{ visibility: carousel === 1 ? 'visible' : 'hidden' }}> */}
+              {/* {errors?.map((error, id) => <p className={styles.error} key={id}>{error}</p>)}
+              </div> */}
             </div>
             {/*<---------------------------------------FINANCIAL--------------------------------------------> */}
             <div className={styles.formInnerWrapper}>
@@ -406,10 +386,12 @@ export default function Home() {
                     onChange={e => setTaxId(e.target.value)}
                     value={taxId}
                     type="text"
+                    maxLength={9}
                     required
                   />
                   <div className={styles.underline}></div>
                   <label>Tax ID</label>
+                  {errors.taxId && <p className={styles.error}>{errors.taxId}</p>}
                 </div>
                 <div className={styles.inputData}>
                   <select
@@ -429,6 +411,7 @@ export default function Home() {
                   >
                     Tax ID Type
                   </label>
+                  {errors.taxIdType && <p className={styles.error}>{errors.taxIdType}</p>}
                   <div className={styles.underline}></div>
                 </div>
               </div>
@@ -451,6 +434,7 @@ export default function Home() {
                   >
                     Country of Citizenship
                   </label>
+                  {errors.countryOfCitizenship && <p className={styles.error}>{errors.countryOfCitizenship}</p>}
                   <div className={styles.underline}></div>
                 </div>
                 <div className={styles.inputData}>
@@ -471,6 +455,7 @@ export default function Home() {
                   >
                     Country of Birth
                   </label>
+                  {errors.countryOfBirth && <p className={styles.error}>{errors.countryOfBirth}</p>}
                   <div className={styles.underline}></div>
                 </div>
               </div>
@@ -493,6 +478,7 @@ export default function Home() {
                   >
                     Country of Residence
                   </label>
+                  {errors.countryOfResidence && <p className={styles.error}>{errors.countryOfResidence}</p>}
                   <div className={styles.underline}></div>
                 </div>
                 <div className={styles.inputData}>
@@ -513,12 +499,13 @@ export default function Home() {
                   >
                     Funding Source
                   </label>
+                  {errors.fundingSource && <p className={styles.error}>{errors.fundingSource}</p>}
                   <div className={styles.underline}></div>
                 </div>
               </div>
-              <div style={{ visibility: carousel === 2 ? 'visible' : 'hidden' }}>
-                {errors?.map((error, id) => <p className={styles.error} key={id}>{error}</p>)}
-              </div>
+              {/* <div style={{ visibility: carousel === 2 ? 'visible' : 'hidden' }}> */}
+              {/* {errors?.map((error, id) => <p className={styles.error} key={id}>{error}</p>)}
+              </div> */}
             </div>
             {/*<---------------------------------------SUMMARY--------------------------------------------> */}
             <div className={styles.formInnerWrapper}>
@@ -561,7 +548,7 @@ export default function Home() {
           </button>
           <button
             onClick={() => carousel < 3 ? setCarousel(carousel + 1) : null}
-            disabled={errors.length > 0}
+            disabled={Object.keys(errors).length > 0}
             className={styles.nextBtn}
             style={{ visibility: carousel === 3 ? "hidden" : "visible" }}
           >
