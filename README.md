@@ -9,8 +9,11 @@ This project is designed to quickly and smoothly gather basic information from a
 ## 🚀 Features
 
 Multi-step form for collecting user information.
+
 Real-time validation for fields like email, phone number, and more.
+
 Error handling with user-friendly messages.
+
 Responsive design for better usability across devices.
 
 ## Getting Started
