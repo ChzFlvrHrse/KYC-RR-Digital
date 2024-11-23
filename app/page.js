@@ -515,14 +515,12 @@ export default function Home() {
                   <div className={styles.underline}></div>
                 </div>
               </div>
-              {/* <div style={{ visibility: carousel === 2 ? 'visible' : 'hidden' }}> */}
-              {/* {errors?.map((error, id) => <p className={styles.error} key={id}>{error}</p>)}
-              </div> */}
             </div>
             {/*<---------------------------------------SUMMARY--------------------------------------------> */}
             <div className={styles.formInnerWrapper}>
               <h2>4. Summary</h2>
               <div className={styles.summaryContainer}>
+                <div className={styles.summaryInner}>
                 {accountInfo.map((section, index) => (
                   <div key={index} className={styles.summarySection}>
                     <h3 className={styles.sectionTitle}>{sectionTitles[index]}</h3>
@@ -546,6 +544,7 @@ export default function Home() {
                     ))}
                   </div>
                 ))}
+                </div>
               </div>
             </div>
           </form>
