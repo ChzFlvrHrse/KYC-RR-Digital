@@ -270,9 +270,10 @@
 
 .summarySection p {
   white-space: nowrap;
+  word-break: break-all;
   overflow: hidden;
   text-overflow: ellipsis;
-  width: 200px; /* Set the desired width */
+  width: 225px; /* Set the desired width */
   position: relative; /* Needed for the absolute positioning of the hover content */
 }
 
@@ -326,6 +327,6 @@
   }
 
   .summarySection p {
-    width: 100%;
+    /* width: 100%; */
   }
 }
