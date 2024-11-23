@@ -39,6 +39,9 @@ cd your-repo-name
 ```
 
 ### 3.) Install Dependencies: Run the following command to install all required packages:
+
+Meke sure you're using Node version 18.18 or higher
+
 ```
  npm run dev
 ```
