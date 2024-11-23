@@ -30,3 +30,10 @@ Responsive design for better usability across devices.
  ```
  git clone https://github.com/your-username/your-repo-name.git
 ```
+
+Replace your-username and your-repo-name with the appropriate GitHub details.
+
+### 2.) Navigate to the Project Directory:
+```
+cd your-repo-name
+```
