@@ -69,6 +69,7 @@ Next.js: Framework for React that includes server-side rendering and routing.
 CSS Modules: For scoped and maintainable styling.
 
 Utility Libraries:
+
     isValidEmail: Custom utility to validate email addresses.
     
     containsLetters: Function to check for letters and invalid symbols in phone numbers.
@@ -78,3 +79,9 @@ Utility Libraries:
     formatPhoneNumberFlexible: Flexible phone number formatter.
     
 Icons/Styling: You can replace or extend styles using the styles object imported from page.module.css.
+
+## 🛡️ Notes
+
+This project was built using the 'use client' directive for client-side rendering.
+
+The form includes built-in validation, but you can customize the logic in the sectionChecks function located in the main component.
