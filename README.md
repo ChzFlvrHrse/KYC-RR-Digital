@@ -52,11 +52,11 @@ cd your-repo-name
 
 ### 3.) Install Dependencies: Run the following command to install all required packages:
 ```
- npm run dev
+ npm install
 ```
 or
 ```
-yarn dev
+yarn install
 ```
 
 ### 4.) Start the Development Server: To start the project locally:
